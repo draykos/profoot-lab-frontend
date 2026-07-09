@@ -9,8 +9,62 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TestRouteImport } from './routes/test'
+import { Route as ProfiloRouteImport } from './routes/profilo'
+import { Route as PartiteRouteImport } from './routes/partite'
+import { Route as MentalRouteImport } from './routes/mental'
+import { Route as MappaRouteImport } from './routes/mappa'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as HighlightsRouteImport } from './routes/highlights'
+import { Route as DietaRouteImport } from './routes/dieta'
+import { Route as AllenamentoRouteImport } from './routes/allenamento'
 import { Route as IndexRouteImport } from './routes/index'
 
+const TestRoute = TestRouteImport.update({
+  id: '/test',
+  path: '/test',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfiloRoute = ProfiloRouteImport.update({
+  id: '/profilo',
+  path: '/profilo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartiteRoute = PartiteRouteImport.update({
+  id: '/partite',
+  path: '/partite',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MentalRoute = MentalRouteImport.update({
+  id: '/mental',
+  path: '/mental',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MappaRoute = MappaRouteImport.update({
+  id: '/mappa',
+  path: '/mappa',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HighlightsRoute = HighlightsRouteImport.update({
+  id: '/highlights',
+  path: '/highlights',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DietaRoute = DietaRouteImport.update({
+  id: '/dieta',
+  path: '/dieta',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AllenamentoRoute = AllenamentoRouteImport.update({
+  id: '/allenamento',
+  path: '/allenamento',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +73,158 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/allenamento': typeof AllenamentoRoute
+  '/dieta': typeof DietaRoute
+  '/highlights': typeof HighlightsRoute
+  '/login': typeof LoginRoute
+  '/mappa': typeof MappaRoute
+  '/mental': typeof MentalRoute
+  '/partite': typeof PartiteRoute
+  '/profilo': typeof ProfiloRoute
+  '/test': typeof TestRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/allenamento': typeof AllenamentoRoute
+  '/dieta': typeof DietaRoute
+  '/highlights': typeof HighlightsRoute
+  '/login': typeof LoginRoute
+  '/mappa': typeof MappaRoute
+  '/mental': typeof MentalRoute
+  '/partite': typeof PartiteRoute
+  '/profilo': typeof ProfiloRoute
+  '/test': typeof TestRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/allenamento': typeof AllenamentoRoute
+  '/dieta': typeof DietaRoute
+  '/highlights': typeof HighlightsRoute
+  '/login': typeof LoginRoute
+  '/mappa': typeof MappaRoute
+  '/mental': typeof MentalRoute
+  '/partite': typeof PartiteRoute
+  '/profilo': typeof ProfiloRoute
+  '/test': typeof TestRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/allenamento'
+    | '/dieta'
+    | '/highlights'
+    | '/login'
+    | '/mappa'
+    | '/mental'
+    | '/partite'
+    | '/profilo'
+    | '/test'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/allenamento'
+    | '/dieta'
+    | '/highlights'
+    | '/login'
+    | '/mappa'
+    | '/mental'
+    | '/partite'
+    | '/profilo'
+    | '/test'
+  id:
+    | '__root__'
+    | '/'
+    | '/allenamento'
+    | '/dieta'
+    | '/highlights'
+    | '/login'
+    | '/mappa'
+    | '/mental'
+    | '/partite'
+    | '/profilo'
+    | '/test'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AllenamentoRoute: typeof AllenamentoRoute
+  DietaRoute: typeof DietaRoute
+  HighlightsRoute: typeof HighlightsRoute
+  LoginRoute: typeof LoginRoute
+  MappaRoute: typeof MappaRoute
+  MentalRoute: typeof MentalRoute
+  PartiteRoute: typeof PartiteRoute
+  ProfiloRoute: typeof ProfiloRoute
+  TestRoute: typeof TestRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/test': {
+      id: '/test'
+      path: '/test'
+      fullPath: '/test'
+      preLoaderRoute: typeof TestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profilo': {
+      id: '/profilo'
+      path: '/profilo'
+      fullPath: '/profilo'
+      preLoaderRoute: typeof ProfiloRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/partite': {
+      id: '/partite'
+      path: '/partite'
+      fullPath: '/partite'
+      preLoaderRoute: typeof PartiteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mental': {
+      id: '/mental'
+      path: '/mental'
+      fullPath: '/mental'
+      preLoaderRoute: typeof MentalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mappa': {
+      id: '/mappa'
+      path: '/mappa'
+      fullPath: '/mappa'
+      preLoaderRoute: typeof MappaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/highlights': {
+      id: '/highlights'
+      path: '/highlights'
+      fullPath: '/highlights'
+      preLoaderRoute: typeof HighlightsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dieta': {
+      id: '/dieta'
+      path: '/dieta'
+      fullPath: '/dieta'
+      preLoaderRoute: typeof DietaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/allenamento': {
+      id: '/allenamento'
+      path: '/allenamento'
+      fullPath: '/allenamento'
+      preLoaderRoute: typeof AllenamentoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +237,15 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AllenamentoRoute: AllenamentoRoute,
+  DietaRoute: DietaRoute,
+  HighlightsRoute: HighlightsRoute,
+  LoginRoute: LoginRoute,
+  MappaRoute: MappaRoute,
+  MentalRoute: MentalRoute,
+  PartiteRoute: PartiteRoute,
+  ProfiloRoute: ProfiloRoute,
+  TestRoute: TestRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
