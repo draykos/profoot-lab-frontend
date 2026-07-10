@@ -30,18 +30,18 @@ function HomePage() {
   const t = useT("home");
 
   const quickAccess = [
-    { to: "/allenamento", label: t.qa_train, icon: Dumbbell, sub: t.qa_train_sub },
-    { to: "/dieta", label: t.qa_diet, icon: Salad, sub: t.qa_diet_sub },
+    { to: "/training", label: t.qa_train, icon: Dumbbell, sub: t.qa_train_sub },
+    { to: "/diet", label: t.qa_diet, icon: Salad, sub: t.qa_diet_sub },
     { to: "/test", label: t.qa_tests, icon: Trophy, sub: t.qa_tests_sub },
-    { to: "/mappa", label: t.qa_body, icon: HeartPulse, sub: t.qa_body_sub },
-    { to: "/partite", label: t.qa_matches, icon: CalendarDays, sub: t.qa_matches_sub },
+    { to: "/body", label: t.qa_body, icon: HeartPulse, sub: t.qa_body_sub },
+    { to: "/matches", label: t.qa_matches, icon: CalendarDays, sub: t.qa_matches_sub },
     { to: "/mental", label: t.qa_mental, icon: Sparkles, sub: t.qa_mental_sub },
   ] as const;
 
   return (
     <AppShell eyebrow={t.hello} title={t.ready}>
       {/* Video del giorno */}
-      <Link to="/allenamento" className="mb-4 block">
+      <Link to="/training" className="mb-4 block">
         <Card className="!p-0 overflow-hidden ring-0">
           <div className="relative aspect-video w-full">
             <img
@@ -79,7 +79,7 @@ function HomePage() {
           <p className="text-xs text-muted-foreground">{t.match_when}</p>
         </div>
         <Link
-          to="/partite"
+          to="/matches"
           className="flex size-10 items-center justify-center rounded-full bg-accent text-accent-foreground"
         >
           <ArrowRight className="size-4" />
@@ -87,7 +87,7 @@ function HomePage() {
       </Card>
 
       {/* Body alert strip */}
-      <Link to="/mappa" className="mb-6 block">
+      <Link to="/body" className="mb-6 block">
         <Card className="flex items-center gap-3 border-l-2 border-l-destructive !p-3 ring-0 bg-destructive/10">
           <span className="size-2 shrink-0 animate-pulse-dot rounded-full bg-destructive" />
           <div className="flex-1">

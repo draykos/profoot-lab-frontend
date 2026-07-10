@@ -3,8 +3,8 @@ import { MapPin, Clock } from "lucide-react";
 import { AppShell, Card } from "@/components/AppShell";
 import { useLang, useT } from "@/lib/i18n";
 
-export const Route = createFileRoute("/partite")({
-  component: PartitePage,
+export const Route = createFileRoute("/matches")({
+  component: MatchesPage,
   head: () => ({
     meta: [
       { title: "Partite — Sistema Atleta Pro" },
@@ -31,7 +31,7 @@ const upcoming: Match[] = [
   { home: "Bologna", away: "Milano FC", dateIt: "07 apr", dateEn: "Apr 7", time: "15:00", venue: "Dall'Ara", compIt: "Serie A", compEn: "Serie A" },
 ];
 
-function PartitePage() {
+function MatchesPage() {
   const t = useT("matches");
   const lang = useLang();
   const [next, ...rest] = upcoming;

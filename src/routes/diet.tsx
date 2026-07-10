@@ -2,8 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AppShell, Card } from "@/components/AppShell";
 import { useLang, useT } from "@/lib/i18n";
 
-export const Route = createFileRoute("/dieta")({
-  component: DietaPage,
+export const Route = createFileRoute("/diet")({
+  component: DietPage,
   head: () => ({
     meta: [
       { title: "Dieta — Sistema Atleta Pro" },
@@ -34,7 +34,7 @@ const meals: Meal[] = [
 
 const totalKcal = meals.reduce((a, m) => a + m.kcal, 0);
 
-function DietaPage() {
+function DietPage() {
   const t = useT("diet");
   const lang = useLang();
   return (

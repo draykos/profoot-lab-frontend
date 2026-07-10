@@ -5,8 +5,8 @@ import bodyFront from "@/assets/body-anatomy.jpg";
 import bodyBack from "@/assets/body-anatomy-back.jpg";
 import { useT } from "@/lib/i18n";
 
-export const Route = createFileRoute("/mappa")({
-  component: MappaPage,
+export const Route = createFileRoute("/body")({
+  component: BodyPage,
   head: () => ({
     meta: [
       { title: "Mappa corporea — Sistema Atleta Pro" },
@@ -47,7 +47,7 @@ const colorMap = {
   ok: "bg-success",
 } as const;
 
-function MappaPage() {
+function BodyPage() {
   const t = useT("body");
   const [view, setView] = useState<View>("front");
   const [selected, setSelected] = useState<Zone>(zones[0]);
