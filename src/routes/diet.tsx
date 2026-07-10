@@ -6,8 +6,16 @@ export const Route = createFileRoute("/diet")({
   component: DietPage,
   head: () => ({
     meta: [
-      { title: "Dieta — Sistema Atleta Pro" },
-      { name: "description", content: "Piano alimentare della giornata con orari, alimenti e valori nutrizionali." },
+      { title: "Dieta — Pitch Perfect" },
+      { name: "description", content: "Piano alimentare giornaliero per calciatori: orari, pasti, calorie e macro per ogni allenamento e partita." },
+      { property: "og:title", content: "Dieta — Pitch Perfect" },
+      { property: "og:description", content: "Piano alimentare su misura per l'atleta: orari, alimenti e valori nutrizionali." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://kick-start-coach-39.lovable.app/diet" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://kick-start-coach-39.lovable.app/diet" },
     ],
   }),
 });

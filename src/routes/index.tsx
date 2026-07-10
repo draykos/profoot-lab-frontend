@@ -16,12 +16,16 @@ export const Route = createFileRoute("/")({
   component: HomePage,
   head: () => ({
     meta: [
-      { title: "Dashboard — Sistema Atleta Pro" },
-      {
-        name: "description",
-        content:
-          "La tua giornata: allenamento di oggi, prossima partita e accesso rapido a tutte le sezioni.",
-      },
+      { title: "Dashboard — Pitch Perfect" },
+      { name: "description", content: "La tua dashboard: video del giorno, prossima partita e accesso rapido a training, dieta, test, mappa corporea e mental coach." },
+      { property: "og:title", content: "Dashboard — Pitch Perfect" },
+      { property: "og:description", content: "La tua giornata da calciatore: video del giorno, prossima partita e accesso rapido a tutte le sezioni." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://kick-start-coach-39.lovable.app/" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://kick-start-coach-39.lovable.app/" },
     ],
   }),
 });

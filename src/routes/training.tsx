@@ -7,11 +7,16 @@ export const Route = createFileRoute("/training")({
   component: TrainingPage,
   head: () => ({
     meta: [
-      { title: "Allenamento — Sistema Atleta Pro" },
-      {
-        name: "description",
-        content: "Un video di allenamento al giorno per l'ultima settimana, caricato dallo staff.",
-      },
+      { title: "Allenamento — Pitch Perfect" },
+      { name: "description", content: "Un video di allenamento al giorno per l'ultima settimana, con sessioni tecniche, tattiche e fisiche per calciatori." },
+      { property: "og:title", content: "Allenamento — Pitch Perfect" },
+      { property: "og:description", content: "Sessioni video giornaliere per migliorare tecnica, tattica e fisicità in campo." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://kick-start-coach-39.lovable.app/training" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://kick-start-coach-39.lovable.app/training" },
     ],
   }),
 });
