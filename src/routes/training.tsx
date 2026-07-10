@@ -3,8 +3,8 @@ import { Play, Calendar } from "lucide-react";
 import { AppShell, Card } from "@/components/AppShell";
 import { useT } from "@/lib/i18n";
 
-export const Route = createFileRoute("/allenamento")({
-  component: AllenamentoPage,
+export const Route = createFileRoute("/training")({
+  component: TrainingPage,
   head: () => ({
     meta: [
       { title: "Allenamento — Sistema Atleta Pro" },
@@ -117,7 +117,7 @@ const intensityColor: Record<Intensity, string> = {
   low: "text-success",
 };
 
-function AllenamentoPage() {
+function TrainingPage() {
   const t = useT("train");
   const today = week[0];
   const rest = week.slice(1);

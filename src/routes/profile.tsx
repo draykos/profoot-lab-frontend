@@ -3,8 +3,8 @@ import { LogOut, Ruler, Weight, Cake, Languages } from "lucide-react";
 import { AppShell, Card } from "@/components/AppShell";
 import { useLanguage, useT } from "@/lib/i18n";
 
-export const Route = createFileRoute("/profilo")({
-  component: ProfiloPage,
+export const Route = createFileRoute("/profile")({
+  component: ProfilePage,
   head: () => ({
     meta: [
       { title: "Profilo — Sistema Atleta Pro" },
@@ -13,7 +13,7 @@ export const Route = createFileRoute("/profilo")({
   }),
 });
 
-function ProfiloPage() {
+function ProfilePage() {
   const navigate = useNavigate();
   const t = useT("profile");
   const { lang, setLang } = useLanguage();
