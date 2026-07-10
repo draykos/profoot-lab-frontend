@@ -46,37 +46,37 @@
 :root {
   --radius: 1rem;
 
-  /* Pitch dark voltage palette */
-  --background: oklch(0.16 0.005 260);         /* ~ zinc-950 */
+  /* Pitch Perfect — black + garnet palette */
+  --background: oklch(0.08 0.005 260);         /* deep black */
   --foreground: oklch(0.96 0.005 260);
-  --surface-1: oklch(0.205 0.006 260);         /* card */
-  --surface-2: oklch(0.245 0.006 260);         /* elevated */
+  --surface-1: oklch(0.145 0.006 260);         /* card */
+  --surface-2: oklch(0.205 0.006 260);         /* elevated */
 
   --card: var(--surface-1);
   --card-foreground: var(--foreground);
   --popover: var(--surface-1);
   --popover-foreground: var(--foreground);
 
-  --primary: oklch(0.93 0.19 118);             /* volt lime #d9ff00 */
-  --primary-foreground: oklch(0.16 0.005 260);
+  --primary: oklch(0.56 0.19 25);              /* garnet */
+  --primary-foreground: oklch(0.98 0.01 25);
 
   --secondary: var(--surface-2);
   --secondary-foreground: var(--foreground);
 
   --muted: var(--surface-1);
-  --muted-foreground: oklch(0.65 0.01 260);
+  --muted-foreground: oklch(0.62 0.01 260);
 
-  --accent: oklch(0.93 0.19 118);
-  --accent-foreground: oklch(0.16 0.005 260);
+  --accent: oklch(0.56 0.19 25);
+  --accent-foreground: oklch(0.98 0.01 25);
 
-  --destructive: oklch(0.63 0.22 27);
+  --destructive: oklch(0.60 0.22 25);
   --destructive-foreground: oklch(0.98 0 0);
   --warning: oklch(0.78 0.16 78);
   --success: oklch(0.72 0.17 155);
 
   --border: oklch(1 0 0 / 8%);
   --input: oklch(1 0 0 / 12%);
-  --ring: oklch(0.93 0.19 118);
+  --ring: oklch(0.56 0.19 25);
 }
 
 .dark {
