@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
-  Bell,
   CalendarDays,
   Dumbbell,
   HeartPulse,
@@ -40,15 +39,6 @@ function HomePage() {
     <AppShell
       eyebrow="Ciao, Luca"
       title="Pronto per oggi?"
-      action={
-        <button
-          aria-label="Notifiche"
-          className="relative flex size-11 items-center justify-center rounded-full border border-border bg-card"
-        >
-          <Bell className="size-4" />
-          <span className="absolute right-2.5 top-2.5 size-1.5 rounded-full bg-accent" />
-        </button>
-      }
     >
       {/* Video del giorno */}
       <Link to="/allenamento" className="mb-4 block">
