@@ -16,10 +16,10 @@ export function AppShell({ title, eyebrow, children, action }: AppShellProps) {
 
   const navItems = [
     { to: "/", label: nav.home, icon: Home },
-    { to: "/allenamento", label: nav.train, icon: Dumbbell },
+    { to: "/training", label: nav.train, icon: Dumbbell },
     { to: "/test", label: nav.test, icon: Activity },
-    { to: "/mappa", label: nav.body, icon: HeartPulse },
-    { to: "/profilo", label: nav.profile, icon: User },
+    { to: "/body", label: nav.body, icon: HeartPulse },
+    { to: "/profile", label: nav.profile, icon: User },
   ] as const;
 
   return (
