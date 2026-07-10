@@ -3,6 +3,7 @@ import { useState } from "react";
 import { AppShell, Card } from "@/components/AppShell";
 import bodyFront from "@/assets/body-anatomy.jpg";
 import bodyBack from "@/assets/body-anatomy-back.jpg";
+import { useT } from "@/lib/i18n";
 
 export const Route = createFileRoute("/mappa")({
   component: MappaPage,
@@ -15,75 +16,29 @@ export const Route = createFileRoute("/mappa")({
 });
 
 type View = "front" | "back";
+type Severity = "alert" | "warn" | "ok";
+type StatusKey = "recovering" | "active" | "resolved";
+type ZoneKey = "z1" | "z2" | "z3" | "z4" | "z5";
+type NoteKey = "z1_note" | "z2_note" | "z3_note" | "z4_note" | "z5_note";
 
 type Zone = {
   id: string;
-  name: string;
+  nameKey: ZoneKey;
+  noteKey: NoteKey;
   view: View;
   top: string;
   left: string;
-  severity: "alert" | "warn" | "ok";
-  status: "In recupero" | "Attivo" | "Risolto";
+  severity: Severity;
+  statusKey: StatusKey;
   date: string;
-  note: string;
 };
 
 const zones: Zone[] = [
-  {
-    id: "quad-l",
-    name: "Flessore sinistro",
-    view: "front",
-    top: "58%",
-    left: "42%",
-    severity: "alert",
-    status: "Attivo",
-    date: "12 mar 2024",
-    note: "Recidiva lieve. Evita carichi esplosivi per 5 giorni.",
-  },
-  {
-    id: "ankle-r",
-    name: "Caviglia destra",
-    view: "front",
-    top: "88%",
-    left: "58%",
-    severity: "warn",
-    status: "In recupero",
-    date: "04 feb 2024",
-    note: "Distorsione grado I. Continua propriocezione.",
-  },
-  {
-    id: "shoulder-r",
-    name: "Spalla destra",
-    view: "front",
-    top: "22%",
-    left: "62%",
-    severity: "ok",
-    status: "Risolto",
-    date: "18 nov 2023",
-    note: "Contusione risolta. Nessuna limitazione.",
-  },
-  {
-    id: "hamstring-r",
-    name: "Ischiocrurale destro",
-    view: "back",
-    top: "60%",
-    left: "56%",
-    severity: "warn",
-    status: "In recupero",
-    date: "20 feb 2024",
-    note: "Stiramento grado I. Progressione carichi in corso.",
-  },
-  {
-    id: "low-back",
-    name: "Zona lombare",
-    view: "back",
-    top: "42%",
-    left: "50%",
-    severity: "ok",
-    status: "Risolto",
-    date: "05 gen 2024",
-    note: "Contrattura risolta con terapia manuale.",
-  },
+  { id: "quad-l", nameKey: "z1", noteKey: "z1_note", view: "front", top: "58%", left: "42%", severity: "alert", statusKey: "active", date: "12/03/2024" },
+  { id: "ankle-r", nameKey: "z2", noteKey: "z2_note", view: "front", top: "88%", left: "58%", severity: "warn", statusKey: "recovering", date: "04/02/2024" },
+  { id: "shoulder-r", nameKey: "z3", noteKey: "z3_note", view: "front", top: "22%", left: "62%", severity: "ok", statusKey: "resolved", date: "18/11/2023" },
+  { id: "hamstring-r", nameKey: "z4", noteKey: "z4_note", view: "back", top: "60%", left: "56%", severity: "warn", statusKey: "recovering", date: "20/02/2024" },
+  { id: "low-back", nameKey: "z5", noteKey: "z5_note", view: "back", top: "42%", left: "50%", severity: "ok", statusKey: "resolved", date: "05/01/2024" },
 ];
 
 const colorMap = {
@@ -93,13 +48,16 @@ const colorMap = {
 } as const;
 
 function MappaPage() {
+  const t = useT("body");
   const [view, setView] = useState<View>("front");
   const [selected, setSelected] = useState<Zone>(zones[0]);
   const visibleZones = zones.filter((z) => z.view === view);
 
+  const statusLabel = (k: StatusKey) =>
+    k === "active" ? t.active : k === "recovering" ? t.recovering : t.resolved;
+
   return (
-    <AppShell eyebrow="Stato muscolare" title="Mappa corporea">
-      {/* Front / Back toggle */}
+    <AppShell eyebrow={t.eyebrow} title={t.title}>
       <div className="mb-4 grid grid-cols-2 gap-1 rounded-full bg-card p-1 ring-1 ring-inset ring-border">
         {(["front", "back"] as const).map((v) => {
           const active = v === view;
@@ -109,12 +67,10 @@ function MappaPage() {
               key={v}
               onClick={() => setView(v)}
               className={`flex items-center justify-center gap-2 rounded-full py-2 text-[11px] font-bold uppercase tracking-widest transition ${
-                active
-                  ? "bg-accent text-accent-foreground"
-                  : "text-muted-foreground"
+                active ? "bg-accent text-accent-foreground" : "text-muted-foreground"
               }`}
             >
-              {v === "front" ? "Fronte" : "Retro"}
+              {v === "front" ? t.front : t.back}
               {counts > 0 && (
                 <span
                   className={`flex size-4 items-center justify-center rounded-full text-[9px] ${
@@ -133,7 +89,7 @@ function MappaPage() {
         <div className="relative aspect-[3/5] w-full overflow-hidden rounded-xl bg-black">
           <img
             src={view === "front" ? bodyFront : bodyBack}
-            alt={`Illustrazione anatomica del corpo — vista ${view === "front" ? "frontale" : "posteriore"}`}
+            alt={view === "front" ? t.front : t.back}
             className="h-full w-full object-contain"
           />
           {visibleZones.map((z) => {
@@ -141,16 +97,14 @@ function MappaPage() {
             return (
               <button
                 key={z.id}
-                aria-label={z.name}
+                aria-label={t[z.nameKey]}
                 onClick={() => setSelected(z)}
                 style={{ top: z.top, left: z.left }}
                 className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-full ${
                   active ? "ring-2 ring-white" : ""
                 }`}
               >
-                <span
-                  className={`flex size-6 items-center justify-center rounded-full ${colorMap[z.severity]}/25`}
-                >
+                <span className={`flex size-6 items-center justify-center rounded-full ${colorMap[z.severity]}/25`}>
                   <span
                     className={`size-2.5 rounded-full ${colorMap[z.severity]} ${
                       z.severity === "alert" ? "animate-pulse-dot" : ""
@@ -162,9 +116,9 @@ function MappaPage() {
           })}
         </div>
         <div className="mt-3 flex items-center justify-around text-[10px] uppercase tracking-widest">
-          <Legend color="bg-destructive" label="Alert" />
-          <Legend color="bg-warning" label="In recupero" />
-          <Legend color="bg-success" label="Risolto" />
+          <Legend color="bg-destructive" label={t.alert} />
+          <Legend color="bg-warning" label={t.recovering} />
+          <Legend color="bg-success" label={t.resolved} />
         </div>
       </Card>
 
@@ -180,28 +134,28 @@ function MappaPage() {
                     : "text-success"
               }`}
             >
-              {selected.status} • {selected.view === "front" ? "Fronte" : "Retro"}
+              {statusLabel(selected.statusKey)} • {selected.view === "front" ? t.front : t.back}
             </p>
-            <p className="text-display mt-1 text-lg font-semibold">{selected.name}</p>
+            <p className="text-display mt-1 text-lg font-semibold">{t[selected.nameKey]}</p>
           </div>
           <span className="text-[10px] uppercase tracking-widest text-muted-foreground">
             {selected.date}
           </span>
         </div>
-        <p className="mt-2 text-sm text-muted-foreground">{selected.note}</p>
+        <p className="mt-2 text-sm text-muted-foreground">{t[selected.noteKey]}</p>
 
         <div className="mt-4 border-t border-border pt-3">
           <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-            Storico infortuni
+            {t.history}
           </p>
           <ul className="space-y-2 text-xs">
             {zones.map((z) => (
               <li key={z.id} className="flex items-center justify-between">
                 <span className="flex items-center gap-2">
                   <span className={`size-1.5 rounded-full ${colorMap[z.severity]}`} />
-                  {z.name}
+                  {t[z.nameKey]}
                   <span className="text-[9px] uppercase tracking-widest text-muted-foreground">
-                    {z.view === "front" ? "F" : "R"}
+                    {z.view === "front" ? t.f_short : t.b_short}
                   </span>
                 </span>
                 <span className="text-muted-foreground">{z.date}</span>
