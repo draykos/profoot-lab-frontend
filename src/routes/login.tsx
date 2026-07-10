@@ -6,8 +6,8 @@ export const Route = createFileRoute("/login")({
   component: LoginPage,
   head: () => ({
     meta: [
-      { title: "Accedi — Sistema Atleta Pro" },
-      { name: "description", content: "Accedi con Google per entrare nella tua area calciatore." },
+      { title: "Accedi — Pitch Perfect" },
+      { name: "description", content: "Accedi con Google per entrare nella tua area calciatore di Pitch Perfect." },
       { name: "robots", content: "noindex" },
     ],
   }),
