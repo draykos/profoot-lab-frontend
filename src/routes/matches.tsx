@@ -7,9 +7,9 @@ export const Route = createFileRoute("/matches")({
   component: MatchesPage,
   head: () => ({
     meta: [
-      { title: "Partite — Pitch Perfect" },
+      { title: "Partite — Profoot Lab" },
       { name: "description", content: "Calendario partite, prossimo incontro in evidenza, avversari, orari e stadi della stagione." },
-      { property: "og:title", content: "Partite — Pitch Perfect" },
+      { property: "og:title", content: "Partite — Profoot Lab" },
       { property: "og:description", content: "Calendario delle partite e prossimo incontro in evidenza." },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://kick-start-coach-39.lovable.app/matches" },

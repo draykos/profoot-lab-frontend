@@ -9,9 +9,9 @@ export const Route = createFileRoute("/body")({
   component: BodyPage,
   head: () => ({
     meta: [
-      { title: "Mappa corporea — Pitch Perfect" },
+      { title: "Mappa corporea — Profoot Lab" },
       { name: "description", content: "Mappa anatomica frontale e posteriore con alert, stato di recupero e storico infortuni." },
-      { property: "og:title", content: "Mappa corporea — Pitch Perfect" },
+      { property: "og:title", content: "Mappa corporea — Profoot Lab" },
       { property: "og:description", content: "Visualizza fronte e retro del corpo, monitora alert e stati di recupero." },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://kick-start-coach-39.lovable.app/body" },

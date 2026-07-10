@@ -7,9 +7,9 @@ export const Route = createFileRoute("/test")({
   component: TestPage,
   head: () => ({
     meta: [
-      { title: "Test fisici — Pitch Perfect" },
+      { title: "Test fisici — Profoot Lab" },
       { name: "description", content: "Risultati e andamento storico dei test di valutazione fisica per monitorare i progressi in campo." },
-      { property: "og:title", content: "Test fisici — Pitch Perfect" },
+      { property: "og:title", content: "Test fisici — Profoot Lab" },
       { property: "og:description", content: "Monitora i tuoi test fisici e il trend dei valori nel tempo." },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://kick-start-coach-39.lovable.app/test" },

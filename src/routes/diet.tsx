@@ -6,9 +6,9 @@ export const Route = createFileRoute("/diet")({
   component: DietPage,
   head: () => ({
     meta: [
-      { title: "Dieta — Pitch Perfect" },
+      { title: "Dieta — Profoot Lab" },
       { name: "description", content: "Piano alimentare giornaliero per calciatori: orari, pasti, calorie e macro per ogni allenamento e partita." },
-      { property: "og:title", content: "Dieta — Pitch Perfect" },
+      { property: "og:title", content: "Dieta — Profoot Lab" },
       { property: "og:description", content: "Piano alimentare su misura per l'atleta: orari, alimenti e valori nutrizionali." },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://kick-start-coach-39.lovable.app/diet" },

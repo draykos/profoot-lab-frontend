@@ -7,9 +7,9 @@ export const Route = createFileRoute("/highlights")({
   component: HighlightsPage,
   head: () => ({
     meta: [
-      { title: "Highlights — Pitch Perfect" },
+      { title: "Highlights — Profoot Lab" },
       { name: "description", content: "Le tue clip migliori dalle partite: gol, assist e azioni decisive da rivedere e condividere." },
-      { property: "og:title", content: "Highlights — Pitch Perfect" },
+      { property: "og:title", content: "Highlights — Profoot Lab" },
       { property: "og:description", content: "Le tue clip migliori dalle partite." },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://kick-start-coach-39.lovable.app/highlights" },
