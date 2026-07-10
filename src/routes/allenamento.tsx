@@ -71,7 +71,7 @@ const week: DailyVideo[] = [
     duration: "25 min",
     intensity: "Alta",
     thumb:
-      "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=60",
+      "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=800&q=60",
   },
   {
     day: "VEN",
