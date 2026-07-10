@@ -7,8 +7,16 @@ export const Route = createFileRoute("/profile")({
   component: ProfilePage,
   head: () => ({
     meta: [
-      { title: "Profilo — Sistema Atleta Pro" },
-      { name: "description", content: "I tuoi dati anagrafici e antropometrici." },
+      { title: "Profilo — Pitch Perfect" },
+      { name: "description", content: "I tuoi dati anagrafici, antropometrici, ruolo e preferenze lingua di Pitch Perfect." },
+      { property: "og:title", content: "Profilo — Pitch Perfect" },
+      { property: "og:description", content: "Dati atleta, misure, ruolo e impostazioni lingua." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://kick-start-coach-39.lovable.app/profile" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://kick-start-coach-39.lovable.app/profile" },
     ],
   }),
 });

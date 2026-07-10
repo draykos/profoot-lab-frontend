@@ -7,8 +7,16 @@ export const Route = createFileRoute("/matches")({
   component: MatchesPage,
   head: () => ({
     meta: [
-      { title: "Partite — Sistema Atleta Pro" },
-      { name: "description", content: "Calendario delle partite e prossimo incontro in evidenza." },
+      { title: "Partite — Pitch Perfect" },
+      { name: "description", content: "Calendario partite, prossimo incontro in evidenza, avversari, orari e stadi della stagione." },
+      { property: "og:title", content: "Partite — Pitch Perfect" },
+      { property: "og:description", content: "Calendario delle partite e prossimo incontro in evidenza." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://kick-start-coach-39.lovable.app/matches" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://kick-start-coach-39.lovable.app/matches" },
     ],
   }),
 });
