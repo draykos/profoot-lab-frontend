@@ -50,27 +50,35 @@ function HomePage() {
         </button>
       }
     >
-      {/* Today card */}
-      <Card className="mb-4 bg-gradient-to-br from-accent to-accent/70 !p-5 ring-0 text-accent-foreground">
-        <div className="flex items-center justify-between">
-          <span className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-70">
-            Oggi • Martedì
-          </span>
-          <span className="rounded-full bg-accent-foreground/10 px-2 py-0.5 text-[10px] font-bold uppercase">
-            Sessione 1/2
-          </span>
-        </div>
-        <h2 className="text-display mt-2 text-2xl font-semibold leading-tight">
-          Lavoro di forza esplosiva
-        </h2>
-        <p className="mt-1 text-sm opacity-80">4 esercizi • 45 min • Palestra</p>
-        <Link
-          to="/allenamento"
-          className="mt-4 inline-flex items-center gap-2 rounded-full bg-accent-foreground/90 px-4 py-2 text-xs font-semibold text-accent"
-        >
-          <Video className="size-3.5" /> Guarda i video
-        </Link>
-      </Card>
+      {/* Video del giorno */}
+      <Link to="/allenamento" className="mb-4 block">
+        <Card className="!p-0 overflow-hidden ring-0">
+          <div className="relative aspect-video w-full">
+            <img
+              src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=1200&q=70"
+              alt="Video del giorno"
+              className="h-full w-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
+            <span className="absolute left-4 top-4 rounded-full bg-accent px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-foreground">
+              Video del giorno
+            </span>
+            <span className="absolute right-4 top-4 flex size-11 items-center justify-center rounded-full bg-accent text-accent-foreground shadow-glow">
+              <Video className="size-5" />
+            </span>
+            <div className="absolute inset-x-0 bottom-0 p-4">
+              <p className="text-[10px] font-semibold uppercase tracking-widest text-accent">
+                Oggi • Martedì
+              </p>
+              <h2 className="text-display mt-1 text-xl font-semibold leading-tight text-white">
+                Squat esplosivi 4×6
+              </h2>
+              <p className="mt-1 text-xs text-white/70">Forza • 12 min • con Coach Marco</p>
+            </div>
+          </div>
+        </Card>
+      </Link>
+
 
       {/* Next match */}
       <Card className="mb-4 flex items-center justify-between !p-4">
