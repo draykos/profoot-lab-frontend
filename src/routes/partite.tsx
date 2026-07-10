@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { MapPin, Clock } from "lucide-react";
 import { AppShell, Card } from "@/components/AppShell";
+import { useLang, useT } from "@/lib/i18n";
 
 export const Route = createFileRoute("/partite")({
   component: PartitePage,
@@ -12,34 +13,50 @@ export const Route = createFileRoute("/partite")({
   }),
 });
 
-const upcoming = [
-  { home: "Milano FC", away: "Torino", date: "20 mar", time: "20:45", venue: "San Siro", comp: "Serie A" },
-  { home: "Napoli", away: "Milano FC", date: "24 mar", time: "18:00", venue: "Maradona", comp: "Serie A" },
-  { home: "Milano FC", away: "PSG", date: "02 apr", time: "21:00", venue: "San Siro", comp: "Champions" },
-  { home: "Bologna", away: "Milano FC", date: "07 apr", time: "15:00", venue: "Dall'Ara", comp: "Serie A" },
+type Match = {
+  home: string;
+  away: string;
+  dateIt: string;
+  dateEn: string;
+  time: string;
+  venue: string;
+  compIt: string;
+  compEn: string;
+};
+
+const upcoming: Match[] = [
+  { home: "Milano FC", away: "Torino", dateIt: "20 mar", dateEn: "Mar 20", time: "20:45", venue: "San Siro", compIt: "Serie A", compEn: "Serie A" },
+  { home: "Napoli", away: "Milano FC", dateIt: "24 mar", dateEn: "Mar 24", time: "18:00", venue: "Maradona", compIt: "Serie A", compEn: "Serie A" },
+  { home: "Milano FC", away: "PSG", dateIt: "02 apr", dateEn: "Apr 2", time: "21:00", venue: "San Siro", compIt: "Champions", compEn: "Champions" },
+  { home: "Bologna", away: "Milano FC", dateIt: "07 apr", dateEn: "Apr 7", time: "15:00", venue: "Dall'Ara", compIt: "Serie A", compEn: "Serie A" },
 ];
 
 function PartitePage() {
+  const t = useT("matches");
+  const lang = useLang();
   const [next, ...rest] = upcoming;
+  const d = (m: Match) => (lang === "it" ? m.dateIt : m.dateEn);
+  const c = (m: Match) => (lang === "it" ? m.compIt : m.compEn);
+
   return (
-    <AppShell eyebrow="Calendario" title="Partite">
+    <AppShell eyebrow={t.eyebrow} title={t.title}>
       <Card className="mb-5 !p-5 bg-gradient-to-br from-accent to-accent/80 text-accent-foreground ring-0">
         <span className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-70">
-          Prossima partita
+          {t.next}
         </span>
         <div className="mt-3 flex items-center justify-between">
           <TeamBadge name={next.home} />
           <div className="text-center">
             <p className="text-display text-3xl font-semibold">VS</p>
             <p className="mt-1 text-[10px] font-bold uppercase tracking-widest opacity-70">
-              {next.comp}
+              {c(next)}
             </p>
           </div>
           <TeamBadge name={next.away} />
         </div>
         <div className="mt-5 flex items-center justify-between text-xs font-medium opacity-90">
           <span className="flex items-center gap-1.5">
-            <Clock className="size-3.5" /> {next.date} · {next.time}
+            <Clock className="size-3.5" /> {d(next)} · {next.time}
           </span>
           <span className="flex items-center gap-1.5">
             <MapPin className="size-3.5" /> {next.venue}
@@ -48,7 +65,7 @@ function PartitePage() {
       </Card>
 
       <h3 className="text-display mb-3 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-        In programma
+        {t.scheduled}
       </h3>
       <div className="space-y-3">
         {rest.map((m, i) => (
@@ -56,15 +73,15 @@ function PartitePage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-[10px] font-bold uppercase tracking-widest text-accent">
-                  {m.comp}
+                  {c(m)}
                 </p>
                 <p className="mt-1 text-sm font-semibold">
-                  {m.home} <span className="text-muted-foreground">vs</span> {m.away}
+                  {m.home} <span className="text-muted-foreground">{t.vs}</span> {m.away}
                 </p>
                 <p className="mt-1 text-[11px] text-muted-foreground">{m.venue}</p>
               </div>
               <div className="text-right">
-                <p className="text-display text-lg font-semibold">{m.date}</p>
+                <p className="text-display text-lg font-semibold">{d(m)}</p>
                 <p className="text-[11px] text-muted-foreground">{m.time}</p>
               </div>
             </div>

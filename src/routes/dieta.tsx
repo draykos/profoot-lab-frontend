@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell, Card } from "@/components/AppShell";
+import { useLang, useT } from "@/lib/i18n";
 
 export const Route = createFileRoute("/dieta")({
   component: DietaPage,
@@ -11,69 +12,55 @@ export const Route = createFileRoute("/dieta")({
   }),
 });
 
-const meals = [
-  {
-    time: "07:30",
-    name: "Colazione",
-    dish: "Porridge d'avena, mirtilli, mandorle",
-    kcal: 520,
-    macros: { c: 65, p: 20, f: 12 },
-    active: true,
-  },
-  {
-    time: "10:30",
-    name: "Spuntino",
-    dish: "Yogurt greco, miele e frutta secca",
-    kcal: 280,
-    macros: { c: 22, p: 18, f: 12 },
-  },
-  {
-    time: "13:00",
-    name: "Pranzo",
-    dish: "Pasta integrale al salmone e spinaci",
-    kcal: 720,
-    macros: { c: 80, p: 35, f: 18 },
-  },
-  {
-    time: "16:30",
-    name: "Pre-allenamento",
-    dish: "Banana, gallette di riso, burro d'arachidi",
-    kcal: 340,
-    macros: { c: 55, p: 8, f: 10 },
-  },
-  {
-    time: "20:30",
-    name: "Cena",
-    dish: "Petto di pollo, quinoa, verdure grigliate",
-    kcal: 590,
-    macros: { c: 45, p: 48, f: 14 },
-  },
+type MealKey = "breakfast" | "snack" | "lunch" | "pre" | "dinner";
+type DishKey = "dish1" | "dish2" | "dish3" | "dish4" | "dish5";
+
+type Meal = {
+  time: string;
+  nameKey: MealKey;
+  dishKey: DishKey;
+  kcal: number;
+  macros: { c: number; p: number; f: number };
+  active?: boolean;
+};
+
+const meals: Meal[] = [
+  { time: "07:30", nameKey: "breakfast", dishKey: "dish1", kcal: 520, macros: { c: 65, p: 20, f: 12 }, active: true },
+  { time: "10:30", nameKey: "snack", dishKey: "dish2", kcal: 280, macros: { c: 22, p: 18, f: 12 } },
+  { time: "13:00", nameKey: "lunch", dishKey: "dish3", kcal: 720, macros: { c: 80, p: 35, f: 18 } },
+  { time: "16:30", nameKey: "pre", dishKey: "dish4", kcal: 340, macros: { c: 55, p: 8, f: 10 } },
+  { time: "20:30", nameKey: "dinner", dishKey: "dish5", kcal: 590, macros: { c: 45, p: 48, f: 14 } },
 ];
 
 const totalKcal = meals.reduce((a, m) => a + m.kcal, 0);
 
 function DietaPage() {
+  const t = useT("diet");
+  const lang = useLang();
   return (
-    <AppShell eyebrow="Piano nutrizionale" title="Dieta">
+    <AppShell eyebrow={t.eyebrow} title={t.title}>
       <Card className="mb-5 !p-4">
         <div className="flex items-end justify-between">
           <div>
             <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-              Fabbisogno oggi
+              {t.today_need}
             </span>
             <p className="text-display mt-1 text-3xl font-semibold">
-              {totalKcal.toLocaleString("it-IT")}
-              <span className="ml-1 text-sm text-muted-foreground">kcal</span>
+              {totalKcal.toLocaleString(lang === "it" ? "it-IT" : "en-US")}
+              <span className="ml-1 text-sm text-muted-foreground">{t.kcal}</span>
             </p>
           </div>
           <div className="text-right text-[10px] uppercase tracking-widest text-muted-foreground">
-            Obiettivo <span className="text-accent">2.500</span>
+            {t.goal}{" "}
+            <span className="text-accent">
+              {(2500).toLocaleString(lang === "it" ? "it-IT" : "en-US")}
+            </span>
           </div>
         </div>
         <div className="mt-4 grid grid-cols-3 gap-2 text-center text-[10px] uppercase tracking-widest text-muted-foreground">
-          <Macro label="Carbo" value="267g" bar={0.75} />
-          <Macro label="Proteine" value="129g" bar={0.9} />
-          <Macro label="Grassi" value="66g" bar={0.6} />
+          <Macro label={t.carbs} value="267g" bar={0.75} />
+          <Macro label={t.protein} value="129g" bar={0.9} />
+          <Macro label={t.fats} value="66g" bar={0.6} />
         </div>
       </Card>
 
@@ -90,18 +77,18 @@ function DietaPage() {
               />
             </span>
             <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
-              {m.time} · {m.name}
+              {m.time} · {t[m.nameKey]}
             </p>
             <Card className="mt-2 !p-3">
               <div className="flex items-start justify-between gap-3">
-                <p className="text-sm font-semibold">{m.dish}</p>
+                <p className="text-sm font-semibold">{t[m.dishKey]}</p>
                 <span className="text-display shrink-0 text-sm font-semibold text-accent">
                   {m.kcal}
-                  <span className="text-[10px] text-muted-foreground"> kcal</span>
+                  <span className="text-[10px] text-muted-foreground"> {t.kcal}</span>
                 </span>
               </div>
               <p className="mt-1 text-[11px] text-muted-foreground">
-                Carb {m.macros.c}g · Pro {m.macros.p}g · Grassi {m.macros.f}g
+                {t.m_carb} {m.macros.c}g · {t.m_pro} {m.macros.p}g · {t.m_fat} {m.macros.f}g
               </p>
             </Card>
           </div>

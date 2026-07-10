@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Play, Calendar } from "lucide-react";
 import { AppShell, Card } from "@/components/AppShell";
+import { useT } from "@/lib/i18n";
 
 export const Route = createFileRoute("/allenamento")({
   component: AllenamentoPage,
@@ -15,133 +16,139 @@ export const Route = createFileRoute("/allenamento")({
   }),
 });
 
+type Intensity = "high" | "med" | "low";
+
 type DailyVideo = {
-  day: string;
+  dayKey: "d_mar" | "d_lun" | "d_dom" | "d_sab" | "d_ven" | "d_gio" | "d_mer";
   dayNum: string;
-  date: string;
-  title: string;
-  tag: string;
+  dateLabel: string; // may be a translated key marker or literal
+  titleKey: "v1_title" | "v2_title" | "v3_title" | "v4_title" | "v5_title" | "v6_title" | "v7_title";
+  tagKey: "v1_tag" | "v2_tag" | "v3_tag" | "v4_tag" | "v5_tag" | "v6_tag" | "v7_tag";
   duration: string;
-  intensity: "Bassa" | "Media" | "Alta";
+  intensity: Intensity;
   thumb: string;
   isToday?: boolean;
 };
 
 const week: DailyVideo[] = [
   {
-    day: "MAR",
+    dayKey: "d_mar",
     dayNum: "12",
-    date: "Oggi",
-    title: "Squat esplosivi 4×6",
-    tag: "Forza",
+    dateLabel: "__today__",
+    titleKey: "v1_title",
+    tagKey: "v1_tag",
     duration: "12 min",
-    intensity: "Alta",
+    intensity: "high",
     thumb:
       "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=800&q=60",
     isToday: true,
   },
   {
-    day: "LUN",
+    dayKey: "d_lun",
     dayNum: "11",
-    date: "Ieri",
-    title: "Mobilità dinamica",
-    tag: "Attivazione",
+    dateLabel: "__yesterday__",
+    titleKey: "v2_title",
+    tagKey: "v2_tag",
     duration: "10 min",
-    intensity: "Bassa",
+    intensity: "low",
     thumb:
       "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=800&q=60",
   },
   {
-    day: "DOM",
+    dayKey: "d_dom",
     dayNum: "10",
-    date: "10 mar",
-    title: "Recupero attivo",
-    tag: "Defaticamento",
+    dateLabel: "10/03",
+    titleKey: "v3_title",
+    tagKey: "v3_tag",
     duration: "20 min",
-    intensity: "Bassa",
+    intensity: "low",
     thumb:
       "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=800&q=60",
   },
   {
-    day: "SAB",
+    dayKey: "d_sab",
     dayNum: "09",
-    date: "09 mar",
-    title: "Sprint & cambi di direzione",
-    tag: "Velocità",
+    dateLabel: "09/03",
+    titleKey: "v4_title",
+    tagKey: "v4_tag",
     duration: "25 min",
-    intensity: "Alta",
+    intensity: "high",
     thumb:
       "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=800&q=60",
   },
   {
-    day: "VEN",
+    dayKey: "d_ven",
     dayNum: "08",
-    date: "08 mar",
-    title: "Stabilità anti-rotazione",
-    tag: "Core",
+    dateLabel: "08/03",
+    titleKey: "v5_title",
+    tagKey: "v5_tag",
     duration: "15 min",
-    intensity: "Media",
+    intensity: "med",
     thumb:
       "https://images.unsplash.com/photo-1594381898411-846e7d193883?auto=format&fit=crop&w=800&q=60",
   },
   {
-    day: "GIO",
+    dayKey: "d_gio",
     dayNum: "07",
-    date: "07 mar",
-    title: "Circuito metabolico",
-    tag: "Condizionamento",
+    dateLabel: "07/03",
+    titleKey: "v6_title",
+    tagKey: "v6_tag",
     duration: "22 min",
-    intensity: "Alta",
+    intensity: "high",
     thumb:
       "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=60",
   },
   {
-    day: "MER",
+    dayKey: "d_mer",
     dayNum: "06",
-    date: "06 mar",
-    title: "Foam roller & stretching",
-    tag: "Recupero",
+    dateLabel: "06/03",
+    titleKey: "v7_title",
+    tagKey: "v7_tag",
     duration: "8 min",
-    intensity: "Bassa",
+    intensity: "low",
     thumb:
       "https://images.unsplash.com/photo-1540206395-68808572332f?auto=format&fit=crop&w=800&q=60",
   },
 ];
 
-const intensityColor = {
-  Alta: "text-destructive",
-  Media: "text-warning",
-  Bassa: "text-success",
-} as const;
+const intensityColor: Record<Intensity, string> = {
+  high: "text-destructive",
+  med: "text-warning",
+  low: "text-success",
+};
 
 function AllenamentoPage() {
+  const t = useT("train");
   const today = week[0];
   const rest = week.slice(1);
 
+  const intensityLabel = (i: Intensity) =>
+    i === "high" ? t.i_high : i === "med" ? t.i_med : t.i_low;
+
   return (
-    <AppShell eyebrow="Ultima settimana" title="Allenamento">
+    <AppShell eyebrow={t.eyebrow} title={t.title}>
       {/* Video di oggi in evidenza */}
       <button className="mb-5 block w-full text-left">
         <Card className="!p-0 overflow-hidden ring-0">
           <div className="relative aspect-video w-full">
             <img
               src={today.thumb}
-              alt={today.title}
+              alt={t[today.titleKey]}
               className="h-full w-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
             <span className="absolute left-3 top-3 rounded-full bg-accent px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-accent-foreground">
-              Video di oggi
+              {t.video_today}
             </span>
             <span className="absolute right-3 top-3 flex size-11 items-center justify-center rounded-full bg-accent text-accent-foreground shadow-glow">
               <Play className="size-5 fill-current" />
             </span>
             <div className="absolute inset-x-0 bottom-0 p-4">
               <p className="text-[10px] font-semibold uppercase tracking-widest text-accent">
-                {today.tag} • {today.duration}
+                {t[today.tagKey]} • {today.duration}
               </p>
               <p className="text-display mt-1 text-lg font-semibold text-white">
-                {today.title}
+                {t[today.titleKey]}
               </p>
             </div>
           </div>
@@ -150,10 +157,10 @@ function AllenamentoPage() {
 
       <div className="mb-3 flex items-center justify-between">
         <h3 className="text-display text-sm font-semibold uppercase tracking-widest text-muted-foreground">
-          Giorni precedenti
+          {t.previous_days}
         </h3>
         <span className="flex items-center gap-1 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
-          <Calendar className="size-3" /> 7 giorni
+          <Calendar className="size-3" /> {t.seven_days}
         </span>
       </div>
 
@@ -164,7 +171,7 @@ function AllenamentoPage() {
               <div className="flex gap-3">
                 <div className="flex w-12 shrink-0 flex-col items-center justify-center rounded-xl bg-secondary py-2 text-muted-foreground">
                   <span className="text-[9px] font-bold uppercase tracking-widest opacity-70">
-                    {v.day}
+                    {t[v.dayKey]}
                   </span>
                   <span className="text-display text-lg font-semibold text-foreground">
                     {v.dayNum}
@@ -178,13 +185,13 @@ function AllenamentoPage() {
                 </div>
                 <div className="flex-1 py-1">
                   <span className="text-[10px] font-bold uppercase tracking-widest text-accent">
-                    {v.tag}
+                    {t[v.tagKey]}
                   </span>
-                  <p className="mt-1 text-sm font-semibold leading-snug">{v.title}</p>
+                  <p className="mt-1 text-sm font-semibold leading-snug">{t[v.titleKey]}</p>
                   <p className="mt-1 text-[11px] text-muted-foreground">
                     {v.duration} •{" "}
                     <span className={intensityColor[v.intensity]}>
-                      Intensità {v.intensity.toLowerCase()}
+                      {t.intensity} {intensityLabel(v.intensity)}
                     </span>
                   </p>
                 </div>

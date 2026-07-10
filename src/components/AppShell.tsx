@@ -1,6 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { Home, Dumbbell, Activity, User, HeartPulse } from "lucide-react";
+import { LanguageToggle, useT } from "@/lib/i18n";
 
 interface AppShellProps {
   title?: string;
@@ -9,35 +10,37 @@ interface AppShellProps {
   action?: ReactNode;
 }
 
-const navItems = [
-  { to: "/", label: "Home", icon: Home },
-  { to: "/allenamento", label: "Train", icon: Dumbbell },
-  { to: "/test", label: "Test", icon: Activity },
-  { to: "/mappa", label: "Corpo", icon: HeartPulse },
-  { to: "/profilo", label: "Profilo", icon: User },
-] as const;
-
 export function AppShell({ title, eyebrow, children, action }: AppShellProps) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const nav = useT("nav");
+
+  const navItems = [
+    { to: "/", label: nav.home, icon: Home },
+    { to: "/allenamento", label: nav.train, icon: Dumbbell },
+    { to: "/test", label: nav.test, icon: Activity },
+    { to: "/mappa", label: nav.body, icon: HeartPulse },
+    { to: "/profilo", label: nav.profile, icon: User },
+  ] as const;
 
   return (
     <div className="min-h-screen bg-background text-foreground pb-24">
       <div className="mx-auto max-w-lg px-5 pt-6">
-        {(eyebrow || title || action) && (
-          <header className="mb-6 flex items-end justify-between gap-4">
-            <div>
-              {eyebrow && (
-                <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                  {eyebrow}
-                </span>
-              )}
-              {title && (
-                <h1 className="text-display text-3xl font-semibold leading-tight">{title}</h1>
-              )}
-            </div>
+        <header className="mb-6 flex items-end justify-between gap-4">
+          <div className="min-w-0 flex-1">
+            {eyebrow && (
+              <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                {eyebrow}
+              </span>
+            )}
+            {title && (
+              <h1 className="text-display text-3xl font-semibold leading-tight">{title}</h1>
+            )}
+          </div>
+          <div className="flex shrink-0 items-center gap-2">
             {action}
-          </header>
-        )}
+            <LanguageToggle />
+          </div>
+        </header>
         {children}
       </div>
 

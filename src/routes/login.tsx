@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import stadium from "@/assets/stadium-tunnel.jpg";
+import { LanguageToggle, useT } from "@/lib/i18n";
 
 export const Route = createFileRoute("/login")({
   component: LoginPage,
@@ -14,13 +15,14 @@ export const Route = createFileRoute("/login")({
 
 function LoginPage() {
   const navigate = useNavigate();
+  const t = useT("login");
 
   return (
     <div className="relative flex min-h-screen flex-col overflow-hidden bg-background text-foreground">
       <div className="relative h-[55vh] w-full overflow-hidden">
         <img
           src={stadium}
-          alt="Tunnel dello stadio illuminato dai riflettori"
+          alt="Stadium tunnel"
           className="h-full w-full object-cover opacity-70"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/40 to-background" />
@@ -30,20 +32,22 @@ function LoginPage() {
             Atleta<span className="text-accent">Pro</span>
           </span>
         </div>
+        <div className="absolute right-5 top-5">
+          <LanguageToggle />
+        </div>
       </div>
 
       <div className="relative -mt-16 flex flex-1 flex-col justify-between px-6 pb-10">
         <div>
           <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-accent">
-            Area calciatore
+            {t.area}
           </span>
           <h1 className="text-display mt-2 text-4xl font-semibold leading-[1.05]">
-            Entra in campo,<br />
-            <span className="text-accent">a modo tuo.</span>
+            {t.title_1}
+            <br />
+            <span className="text-accent">{t.title_2}</span>
           </h1>
-          <p className="mt-3 max-w-sm text-sm text-muted-foreground">
-            Il tuo piano di allenamento, dieta e recupero — sincronizzato con lo staff tecnico.
-          </p>
+          <p className="mt-3 max-w-sm text-sm text-muted-foreground">{t.sub}</p>
         </div>
 
         <div className="space-y-3">
@@ -57,10 +61,10 @@ function LoginPage() {
             className="flex w-full items-center justify-center gap-3 rounded-full bg-foreground py-3.5 text-sm font-semibold text-background transition active:scale-[0.98]"
           >
             <GoogleGlyph />
-            Continua con Google
+            {t.cta}
           </button>
           <p className="px-6 text-center text-[10px] leading-relaxed text-muted-foreground">
-            Accedendo accetti i Termini di Servizio e la Privacy Policy.
+            {t.tos}
           </p>
         </div>
       </div>
