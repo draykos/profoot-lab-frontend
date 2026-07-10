@@ -7,9 +7,9 @@ export const Route = createFileRoute("/profile")({
   component: ProfilePage,
   head: () => ({
     meta: [
-      { title: "Profilo — Pitch Perfect" },
-      { name: "description", content: "I tuoi dati anagrafici, antropometrici, ruolo e preferenze lingua di Pitch Perfect." },
-      { property: "og:title", content: "Profilo — Pitch Perfect" },
+      { title: "Profilo — Profoot Lab" },
+      { name: "description", content: "I tuoi dati anagrafici, antropometrici, ruolo e preferenze lingua di Profoot Lab." },
+      { property: "og:title", content: "Profilo — Profoot Lab" },
       { property: "og:description", content: "Dati atleta, misure, ruolo e impostazioni lingua." },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://kick-start-coach-39.lovable.app/profile" },

@@ -88,15 +88,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
       { name: "theme-color", content: "#0a0a0b" },
-      { title: "Pitch Perfect — App per calciatori professionisti" },
+      { title: "Profoot Lab — App per calciatori professionisti" },
       {
         name: "description",
         content:
-          "Pitch Perfect: l'app per calciatori professionisti. Allenamento, dieta, test fisici, mappa corporea, calendario partite e mental coach.",
+          "Profoot Lab: l'app per calciatori professionisti. Allenamento, dieta, test fisici, mappa corporea, calendario partite e mental coach.",
       },
-      { name: "author", content: "Pitch Perfect" },
-      { property: "og:site_name", content: "Pitch Perfect" },
-      { property: "og:title", content: "Pitch Perfect" },
+      { name: "author", content: "Profoot Lab" },
+      { property: "og:site_name", content: "Profoot Lab" },
+      { property: "og:title", content: "Profoot Lab" },
       {
         property: "og:description",
         content: "Allenamento, dieta, mappa corporea e performance per calciatori d'élite.",

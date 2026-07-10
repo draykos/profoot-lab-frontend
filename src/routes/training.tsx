@@ -7,9 +7,9 @@ export const Route = createFileRoute("/training")({
   component: TrainingPage,
   head: () => ({
     meta: [
-      { title: "Allenamento — Pitch Perfect" },
+      { title: "Allenamento — Profoot Lab" },
       { name: "description", content: "Un video di allenamento al giorno per l'ultima settimana, con sessioni tecniche, tattiche e fisiche per calciatori." },
-      { property: "og:title", content: "Allenamento — Pitch Perfect" },
+      { property: "og:title", content: "Allenamento — Profoot Lab" },
       { property: "og:description", content: "Sessioni video giornaliere per migliorare tecnica, tattica e fisicità in campo." },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://kick-start-coach-39.lovable.app/training" },

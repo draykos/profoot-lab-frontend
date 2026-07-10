@@ -46,7 +46,7 @@
 :root {
   --radius: 1rem;
 
-  /* Pitch Perfect — black + garnet palette */
+  /* Profoot Lab — black + garnet palette */
   --background: oklch(0.08 0.005 260);         /* deep black */
   --foreground: oklch(0.96 0.005 260);
   --surface-1: oklch(0.145 0.006 260);         /* card */
