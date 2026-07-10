@@ -16,9 +16,9 @@ export const Route = createFileRoute("/")({
   component: HomePage,
   head: () => ({
     meta: [
-      { title: "Dashboard — Pitch Perfect" },
+      { title: "Dashboard — Profoot Lab" },
       { name: "description", content: "La tua dashboard: video del giorno, prossima partita e accesso rapido a training, dieta, test, mappa corporea e mental coach." },
-      { property: "og:title", content: "Dashboard — Pitch Perfect" },
+      { property: "og:title", content: "Dashboard — Profoot Lab" },
       { property: "og:description", content: "La tua giornata da calciatore: video del giorno, prossima partita e accesso rapido a tutte le sezioni." },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://kick-start-coach-39.lovable.app/" },
