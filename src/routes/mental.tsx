@@ -7,8 +7,16 @@ export const Route = createFileRoute("/mental")({
   component: MentalPage,
   head: () => ({
     meta: [
-      { title: "Mental coach — Sistema Atleta Pro" },
-      { name: "description", content: "Sessioni di preparazione mentale, respirazione e recupero." },
+      { title: "Mental coach — Pitch Perfect" },
+      { name: "description", content: "Sessioni di preparazione mentale, respirazione, recupero e concentrazione per calciatori." },
+      { property: "og:title", content: "Mental coach — Pitch Perfect" },
+      { property: "og:description", content: "Preparazione mentale, respirazione e recupero per l'atleta." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://kick-start-coach-39.lovable.app/mental" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://kick-start-coach-39.lovable.app/mental" },
     ],
   }),
 });

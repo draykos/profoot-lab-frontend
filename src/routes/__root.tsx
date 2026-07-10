@@ -88,14 +88,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
       { name: "theme-color", content: "#0a0a0b" },
-      { title: "Sistema Atleta Pro — App per calciatori" },
+      { title: "Pitch Perfect — App per calciatori professionisti" },
       {
         name: "description",
         content:
-          "L'app per calciatori professionisti: allenamento, dieta, test fisici, mappa corporea, calendario partite e mental coach.",
+          "Pitch Perfect: l'app per calciatori professionisti. Allenamento, dieta, test fisici, mappa corporea, calendario partite e mental coach.",
       },
-      { name: "author", content: "Sistema Atleta Pro" },
-      { property: "og:title", content: "Sistema Atleta Pro" },
+      { name: "author", content: "Pitch Perfect" },
+      { property: "og:site_name", content: "Pitch Perfect" },
+      { property: "og:title", content: "Pitch Perfect" },
       {
         property: "og:description",
         content: "Allenamento, dieta, mappa corporea e performance per calciatori d'élite.",

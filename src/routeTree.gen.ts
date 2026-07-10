@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TrainingRouteImport } from './routes/training'
 import { Route as TestRouteImport } from './routes/test'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as MentalRouteImport } from './routes/mental'
 import { Route as MatchesRouteImport } from './routes/matches'
@@ -28,6 +29,11 @@ const TrainingRoute = TrainingRouteImport.update({
 const TestRoute = TestRouteImport.update({
   id: '/test',
   path: '/test',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProfileRoute = ProfileRouteImport.update({
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/matches': typeof MatchesRoute
   '/mental': typeof MentalRoute
   '/profile': typeof ProfileRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/test': typeof TestRoute
   '/training': typeof TrainingRoute
 }
@@ -92,6 +99,7 @@ export interface FileRoutesByTo {
   '/matches': typeof MatchesRoute
   '/mental': typeof MentalRoute
   '/profile': typeof ProfileRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/test': typeof TestRoute
   '/training': typeof TrainingRoute
 }
@@ -105,6 +113,7 @@ export interface FileRoutesById {
   '/matches': typeof MatchesRoute
   '/mental': typeof MentalRoute
   '/profile': typeof ProfileRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/test': typeof TestRoute
   '/training': typeof TrainingRoute
 }
@@ -119,6 +128,7 @@ export interface FileRouteTypes {
     | '/matches'
     | '/mental'
     | '/profile'
+    | '/sitemap.xml'
     | '/test'
     | '/training'
   fileRoutesByTo: FileRoutesByTo
@@ -131,6 +141,7 @@ export interface FileRouteTypes {
     | '/matches'
     | '/mental'
     | '/profile'
+    | '/sitemap.xml'
     | '/test'
     | '/training'
   id:
@@ -143,6 +154,7 @@ export interface FileRouteTypes {
     | '/matches'
     | '/mental'
     | '/profile'
+    | '/sitemap.xml'
     | '/test'
     | '/training'
   fileRoutesById: FileRoutesById
@@ -156,6 +168,7 @@ export interface RootRouteChildren {
   MatchesRoute: typeof MatchesRoute
   MentalRoute: typeof MentalRoute
   ProfileRoute: typeof ProfileRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TestRoute: typeof TestRoute
   TrainingRoute: typeof TrainingRoute
 }
@@ -174,6 +187,13 @@ declare module '@tanstack/react-router' {
       path: '/test'
       fullPath: '/test'
       preLoaderRoute: typeof TestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/profile': {
@@ -244,6 +264,7 @@ const rootRouteChildren: RootRouteChildren = {
   MatchesRoute: MatchesRoute,
   MentalRoute: MentalRoute,
   ProfileRoute: ProfileRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   TestRoute: TestRoute,
   TrainingRoute: TrainingRoute,
 }

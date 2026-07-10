@@ -7,8 +7,16 @@ export const Route = createFileRoute("/highlights")({
   component: HighlightsPage,
   head: () => ({
     meta: [
-      { title: "Highlights — Sistema Atleta Pro" },
-      { name: "description", content: "Le tue clip migliori dalle partite." },
+      { title: "Highlights — Pitch Perfect" },
+      { name: "description", content: "Le tue clip migliori dalle partite: gol, assist e azioni decisive da rivedere e condividere." },
+      { property: "og:title", content: "Highlights — Pitch Perfect" },
+      { property: "og:description", content: "Le tue clip migliori dalle partite." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://kick-start-coach-39.lovable.app/highlights" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://kick-start-coach-39.lovable.app/highlights" },
     ],
   }),
 });

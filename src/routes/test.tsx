@@ -7,8 +7,16 @@ export const Route = createFileRoute("/test")({
   component: TestPage,
   head: () => ({
     meta: [
-      { title: "Test fisici — Sistema Atleta Pro" },
-      { name: "description", content: "Risultati dei test di valutazione fisica con andamento storico." },
+      { title: "Test fisici — Pitch Perfect" },
+      { name: "description", content: "Risultati e andamento storico dei test di valutazione fisica per monitorare i progressi in campo." },
+      { property: "og:title", content: "Test fisici — Pitch Perfect" },
+      { property: "og:description", content: "Monitora i tuoi test fisici e il trend dei valori nel tempo." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://kick-start-coach-39.lovable.app/test" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://kick-start-coach-39.lovable.app/test" },
     ],
   }),
 });
