@@ -91,7 +91,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setLoading(false);
 
     // Best-effort revalidation against Strapi (revoked / blocked users).
-    if (stored) {
+    if (stored && stored.jwt !== DEV_JWT) {
       strapiMe(stored.jwt).catch((err: unknown) => {
         const status = (err as { status?: number }).status;
         if (status === 401 || status === 403) {
