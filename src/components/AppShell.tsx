@@ -1,7 +1,8 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { Home, Dumbbell, Activity, User, HeartPulse } from "lucide-react";
+import { Home, Dumbbell, Activity, User, HeartPulse, Loader2 } from "lucide-react";
 import { LanguageToggle, useT } from "@/lib/i18n";
+import { useRequireAuth } from "@/lib/auth";
 
 interface AppShellProps {
   title?: string;
@@ -13,6 +14,16 @@ interface AppShellProps {
 export function AppShell({ title, eyebrow, children, action }: AppShellProps) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const nav = useT("nav");
+  const { ready } = useRequireAuth();
+
+  if (!ready) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <Loader2 className="size-5 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
+
 
   const navItems = [
     { to: "/", label: nav.home, icon: Home },

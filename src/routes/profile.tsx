@@ -82,11 +82,10 @@ function ProfilePage() {
 
       <button
         onClick={() => {
-          try {
-            localStorage.removeItem("atleta_auth");
-          } catch {}
-          navigate({ to: "/login" });
+          logout();
+          navigate({ to: "/login", replace: true });
         }}
+
         className="flex w-full items-center justify-center gap-2 rounded-full border border-border bg-card py-3 text-sm font-semibold text-muted-foreground transition hover:text-foreground"
       >
         <LogOut className="size-4" /> {t.logout}
