@@ -27,6 +27,8 @@ function ProfilePage() {
   const navigate = useNavigate();
   const t = useT("profile");
   const { lang, setLang } = useLanguage();
+  const { logout } = useAuth();
+
 
   return (
     <AppShell eyebrow={t.eyebrow} title={t.title}>
