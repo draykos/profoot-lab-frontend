@@ -2,6 +2,8 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { LogOut, Ruler, Weight, Cake, Languages } from "lucide-react";
 import { AppShell, Card } from "@/components/AppShell";
 import { useLanguage, useT } from "@/lib/i18n";
+import { useAuth } from "@/lib/auth";
+
 
 export const Route = createFileRoute("/profile")({
   component: ProfilePage,
