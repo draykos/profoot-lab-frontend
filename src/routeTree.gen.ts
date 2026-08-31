@@ -12,11 +12,13 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TrainingRouteImport } from './routes/training'
 import { Route as TestRouteImport } from './routes/test'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as MentalRouteImport } from './routes/mental'
 import { Route as MatchesRouteImport } from './routes/matches'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as HighlightsRouteImport } from './routes/highlights'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as DietRouteImport } from './routes/diet'
 import { Route as BodyRouteImport } from './routes/body'
 import { Route as IndexRouteImport } from './routes/index'
@@ -34,6 +36,11 @@ const TestRoute = TestRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProfileRoute = ProfileRouteImport.update({
@@ -61,6 +68,11 @@ const HighlightsRoute = HighlightsRouteImport.update({
   path: '/highlights',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DietRoute = DietRouteImport.update({
   id: '/diet',
   path: '/diet',
@@ -81,11 +93,13 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/body': typeof BodyRoute
   '/diet': typeof DietRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/highlights': typeof HighlightsRoute
   '/login': typeof LoginRoute
   '/matches': typeof MatchesRoute
   '/mental': typeof MentalRoute
   '/profile': typeof ProfileRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/test': typeof TestRoute
   '/training': typeof TrainingRoute
@@ -94,11 +108,13 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/body': typeof BodyRoute
   '/diet': typeof DietRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/highlights': typeof HighlightsRoute
   '/login': typeof LoginRoute
   '/matches': typeof MatchesRoute
   '/mental': typeof MentalRoute
   '/profile': typeof ProfileRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/test': typeof TestRoute
   '/training': typeof TrainingRoute
@@ -108,11 +124,13 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/body': typeof BodyRoute
   '/diet': typeof DietRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/highlights': typeof HighlightsRoute
   '/login': typeof LoginRoute
   '/matches': typeof MatchesRoute
   '/mental': typeof MentalRoute
   '/profile': typeof ProfileRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/test': typeof TestRoute
   '/training': typeof TrainingRoute
@@ -123,11 +141,13 @@ export interface FileRouteTypes {
     | '/'
     | '/body'
     | '/diet'
+    | '/forgot-password'
     | '/highlights'
     | '/login'
     | '/matches'
     | '/mental'
     | '/profile'
+    | '/reset-password'
     | '/sitemap.xml'
     | '/test'
     | '/training'
@@ -136,11 +156,13 @@ export interface FileRouteTypes {
     | '/'
     | '/body'
     | '/diet'
+    | '/forgot-password'
     | '/highlights'
     | '/login'
     | '/matches'
     | '/mental'
     | '/profile'
+    | '/reset-password'
     | '/sitemap.xml'
     | '/test'
     | '/training'
@@ -149,11 +171,13 @@ export interface FileRouteTypes {
     | '/'
     | '/body'
     | '/diet'
+    | '/forgot-password'
     | '/highlights'
     | '/login'
     | '/matches'
     | '/mental'
     | '/profile'
+    | '/reset-password'
     | '/sitemap.xml'
     | '/test'
     | '/training'
@@ -163,11 +187,13 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BodyRoute: typeof BodyRoute
   DietRoute: typeof DietRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
   HighlightsRoute: typeof HighlightsRoute
   LoginRoute: typeof LoginRoute
   MatchesRoute: typeof MatchesRoute
   MentalRoute: typeof MentalRoute
   ProfileRoute: typeof ProfileRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TestRoute: typeof TestRoute
   TrainingRoute: typeof TrainingRoute
@@ -194,6 +220,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/profile': {
@@ -231,6 +264,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HighlightsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/diet': {
       id: '/diet'
       path: '/diet'
@@ -259,11 +299,13 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BodyRoute: BodyRoute,
   DietRoute: DietRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
   HighlightsRoute: HighlightsRoute,
   LoginRoute: LoginRoute,
   MatchesRoute: MatchesRoute,
   MentalRoute: MentalRoute,
   ProfileRoute: ProfileRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TestRoute: TestRoute,
   TrainingRoute: TrainingRoute,

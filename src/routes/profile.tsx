@@ -2,6 +2,8 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { LogOut, Ruler, Weight, Cake, Languages } from "lucide-react";
 import { AppShell, Card } from "@/components/AppShell";
 import { useLanguage, useT } from "@/lib/i18n";
+import { useAuth } from "@/lib/auth";
+
 
 export const Route = createFileRoute("/profile")({
   component: ProfilePage,
@@ -25,6 +27,8 @@ function ProfilePage() {
   const navigate = useNavigate();
   const t = useT("profile");
   const { lang, setLang } = useLanguage();
+  const { logout } = useAuth();
+
 
   return (
     <AppShell eyebrow={t.eyebrow} title={t.title}>
@@ -82,11 +86,10 @@ function ProfilePage() {
 
       <button
         onClick={() => {
-          try {
-            localStorage.removeItem("atleta_auth");
-          } catch {}
-          navigate({ to: "/login" });
+          logout();
+          navigate({ to: "/login", replace: true });
         }}
+
         className="flex w-full items-center justify-center gap-2 rounded-full border border-border bg-card py-3 text-sm font-semibold text-muted-foreground transition hover:text-foreground"
       >
         <LogOut className="size-4" /> {t.logout}
