@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { MapPin, Clock } from "lucide-react";
 import { AppShell, Card } from "@/components/AppShell";
 import { useLang, useT } from "@/lib/i18n";
+import { absoluteUrl } from "@/lib/site";
 
 export const Route = createFileRoute("/matches")({
   component: MatchesPage,
@@ -12,11 +13,11 @@ export const Route = createFileRoute("/matches")({
       { property: "og:title", content: "Partite — Profoot Lab" },
       { property: "og:description", content: "Calendario delle partite e prossimo incontro in evidenza." },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://kick-start-coach-39.lovable.app/matches" },
+      { property: "og:url", content: absoluteUrl("/matches") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
-      { rel: "canonical", href: "https://kick-start-coach-39.lovable.app/matches" },
+      { rel: "canonical", href: absoluteUrl("/matches") },
     ],
   }),
 });

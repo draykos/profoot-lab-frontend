@@ -4,6 +4,7 @@ import { AppShell, Card } from "@/components/AppShell";
 import bodyFront from "@/assets/body-anatomy.jpg";
 import bodyBack from "@/assets/body-anatomy-back.jpg";
 import { useT } from "@/lib/i18n";
+import { absoluteUrl } from "@/lib/site";
 
 export const Route = createFileRoute("/body")({
   component: BodyPage,
@@ -14,11 +15,11 @@ export const Route = createFileRoute("/body")({
       { property: "og:title", content: "Mappa corporea — Profoot Lab" },
       { property: "og:description", content: "Visualizza fronte e retro del corpo, monitora alert e stati di recupero." },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://kick-start-coach-39.lovable.app/body" },
+      { property: "og:url", content: absoluteUrl("/body") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
-      { rel: "canonical", href: "https://kick-start-coach-39.lovable.app/body" },
+      { rel: "canonical", href: absoluteUrl("/body") },
     ],
   }),
 });

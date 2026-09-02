@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppShell, Card } from "@/components/AppShell";
 import { useLang, useT } from "@/lib/i18n";
+import { absoluteUrl } from "@/lib/site";
 
 export const Route = createFileRoute("/diet")({
   component: DietPage,
@@ -11,11 +12,11 @@ export const Route = createFileRoute("/diet")({
       { property: "og:title", content: "Dieta — Profoot Lab" },
       { property: "og:description", content: "Piano alimentare su misura per l'atleta: orari, alimenti e valori nutrizionali." },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://kick-start-coach-39.lovable.app/diet" },
+      { property: "og:url", content: absoluteUrl("/diet") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
-      { rel: "canonical", href: "https://kick-start-coach-39.lovable.app/diet" },
+      { rel: "canonical", href: absoluteUrl("/diet") },
     ],
   }),
 });

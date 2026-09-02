@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Sparkles, Headphones, Wind, Moon } from "lucide-react";
 import { AppShell, Card } from "@/components/AppShell";
 import { useT } from "@/lib/i18n";
+import { absoluteUrl } from "@/lib/site";
 
 export const Route = createFileRoute("/mental")({
   component: MentalPage,
@@ -12,11 +13,11 @@ export const Route = createFileRoute("/mental")({
       { property: "og:title", content: "Mental coach — Profoot Lab" },
       { property: "og:description", content: "Preparazione mentale, respirazione e recupero per l'atleta." },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://kick-start-coach-39.lovable.app/mental" },
+      { property: "og:url", content: absoluteUrl("/mental") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
-      { rel: "canonical", href: "https://kick-start-coach-39.lovable.app/mental" },
+      { rel: "canonical", href: absoluteUrl("/mental") },
     ],
   }),
 });

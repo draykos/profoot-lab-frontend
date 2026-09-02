@@ -3,6 +3,7 @@ import { LogOut, Ruler, Weight, Cake, Languages } from "lucide-react";
 import { AppShell, Card } from "@/components/AppShell";
 import { useLanguage, useT } from "@/lib/i18n";
 import { useAuth } from "@/lib/auth";
+import { absoluteUrl } from "@/lib/site";
 
 
 export const Route = createFileRoute("/profile")({
@@ -14,11 +15,11 @@ export const Route = createFileRoute("/profile")({
       { property: "og:title", content: "Profilo — Profoot Lab" },
       { property: "og:description", content: "Dati atleta, misure, ruolo e impostazioni lingua." },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://kick-start-coach-39.lovable.app/profile" },
+      { property: "og:url", content: absoluteUrl("/profile") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
-      { rel: "canonical", href: "https://kick-start-coach-39.lovable.app/profile" },
+      { rel: "canonical", href: absoluteUrl("/profile") },
     ],
   }),
 });

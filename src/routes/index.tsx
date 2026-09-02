@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { AppShell, Card } from "@/components/AppShell";
 import { useT } from "@/lib/i18n";
+import { absoluteUrl } from "@/lib/site";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
@@ -21,11 +22,11 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "Dashboard — Profoot Lab" },
       { property: "og:description", content: "La tua giornata da calciatore: video del giorno, prossima partita e accesso rapido a tutte le sezioni." },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://kick-start-coach-39.lovable.app/" },
+      { property: "og:url", content: absoluteUrl("/") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
-      { rel: "canonical", href: "https://kick-start-coach-39.lovable.app/" },
+      { rel: "canonical", href: absoluteUrl("/") },
     ],
   }),
 });

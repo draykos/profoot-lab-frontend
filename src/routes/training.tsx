@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Play, Calendar } from "lucide-react";
 import { AppShell, Card } from "@/components/AppShell";
 import { useT } from "@/lib/i18n";
+import { absoluteUrl } from "@/lib/site";
 
 export const Route = createFileRoute("/training")({
   component: TrainingPage,
@@ -12,11 +13,11 @@ export const Route = createFileRoute("/training")({
       { property: "og:title", content: "Allenamento — Profoot Lab" },
       { property: "og:description", content: "Sessioni video giornaliere per migliorare tecnica, tattica e fisicità in campo." },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://kick-start-coach-39.lovable.app/training" },
+      { property: "og:url", content: absoluteUrl("/training") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
-      { rel: "canonical", href: "https://kick-start-coach-39.lovable.app/training" },
+      { rel: "canonical", href: absoluteUrl("/training") },
     ],
   }),
 });

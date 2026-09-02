@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { TrendingUp } from "lucide-react";
 import { AppShell, Card } from "@/components/AppShell";
 import { useLang, useT } from "@/lib/i18n";
+import { absoluteUrl } from "@/lib/site";
 
 export const Route = createFileRoute("/test")({
   component: TestPage,
@@ -12,11 +13,11 @@ export const Route = createFileRoute("/test")({
       { property: "og:title", content: "Test fisici — Profoot Lab" },
       { property: "og:description", content: "Monitora i tuoi test fisici e il trend dei valori nel tempo." },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://kick-start-coach-39.lovable.app/test" },
+      { property: "og:url", content: absoluteUrl("/test") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
-      { rel: "canonical", href: "https://kick-start-coach-39.lovable.app/test" },
+      { rel: "canonical", href: absoluteUrl("/test") },
     ],
   }),
 });

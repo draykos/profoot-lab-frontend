@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Play } from "lucide-react";
 import { AppShell, Card } from "@/components/AppShell";
 import { useLang, useT } from "@/lib/i18n";
+import { absoluteUrl } from "@/lib/site";
 
 export const Route = createFileRoute("/highlights")({
   component: HighlightsPage,
@@ -12,11 +13,11 @@ export const Route = createFileRoute("/highlights")({
       { property: "og:title", content: "Highlights — Profoot Lab" },
       { property: "og:description", content: "Le tue clip migliori dalle partite." },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://kick-start-coach-39.lovable.app/highlights" },
+      { property: "og:url", content: absoluteUrl("/highlights") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
-      { rel: "canonical", href: "https://kick-start-coach-39.lovable.app/highlights" },
+      { rel: "canonical", href: absoluteUrl("/highlights") },
     ],
   }),
 });
