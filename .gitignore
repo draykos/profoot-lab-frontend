@@ -1,3 +1,7 @@
+# local secrets (never commit)
+_secret.md
+**/_secret.md
+
 # Logs
 logs
 *.log
