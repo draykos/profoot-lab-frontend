@@ -78,9 +78,7 @@ function VideoCoachPage() {
         </div>
       )}
 
-      {isError && (
-        <p className="py-6 text-center text-sm text-muted-foreground">{t.load_error}</p>
-      )}
+      {isError && <p className="py-6 text-center text-sm text-muted-foreground">{t.load_error}</p>}
 
       {!isPending && !isError && !hero && (
         <Card className="flex flex-col items-center gap-2 !p-6 text-center">
@@ -118,9 +116,7 @@ function VideoCoachPage() {
                     .filter(Boolean)
                     .join(" • ")}
                 </p>
-                <p className="text-display mt-1 text-lg font-semibold text-white">
-                  {hero.titolo}
-                </p>
+                <p className="text-display mt-1 text-lg font-semibold text-white">{hero.titolo}</p>
               </div>
             </div>
           </Card>
