@@ -128,7 +128,7 @@ function HomePage() {
             <div className="relative aspect-video w-full">
               <img
                 src={videoThumbnail(heroVideo)}
-                alt={t.video_of_day}
+                alt={heroVideo.titolo}
                 className="h-full w-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
