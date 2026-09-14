@@ -54,7 +54,7 @@ adding entries to `minimumReleaseAgeExcludes`.
 | `/body` | `body.tsx` | Anatomical body map (front/back images), injury zones + history. Mock data. |
 | `/diet` | `diet.tsx` | Daily meal plan with macros. Mock data. |
 | `/matches` | `matches.tsx` | Match calendar, next match highlighted. Mock data. |
-| `/mental` | `mental.tsx` | Placeholder "coming soon" section. |
+| `/video-coach` | `video-coach.tsx` | Video-of-the-day home card + up to 7 past/today videos, full-screen player modal. Real Strapi data (ex `/mental` placeholder). |
 | `/highlights` | `highlights.tsx` | Video-clip gallery. Mock data. |
 | `/profile` | `profile.tsx` | Player bio/measurements (mock) + language switch + logout (real). |
 | `/sitemap.xml` | `sitemap[.]xml.ts` | Generated sitemap. |
