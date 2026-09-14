@@ -112,7 +112,7 @@ function HomePage() {
     { to: "/test", label: t.qa_tests, icon: Trophy, sub: t.qa_tests_sub },
     { to: "/body", label: t.qa_body, icon: HeartPulse, sub: qaBodySub },
     { to: "/matches", label: t.qa_matches, icon: CalendarDays, sub: t.qa_matches_sub },
-    { to: "/video-coach", label: t.qa_mental, icon: Sparkles, sub: t.qa_mental_sub },
+    { to: "/mental", label: t.qa_mental, icon: Sparkles, sub: t.qa_mental_sub },
   ] as const;
 
   return (

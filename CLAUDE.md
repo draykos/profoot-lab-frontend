@@ -45,16 +45,16 @@ adding entries to `minimumReleaseAgeExcludes`.
 
 | Route | File | State |
 | --- | --- | --- |
-| `/` | `index.tsx` | Dashboard — video of the day, next match, body alert, quick-access grid. Mock data. |
+| `/` | `index.tsx` | Dashboard — video of the day (real, `api::video-coach`) + next match, body alert (real, `api::infortunio`), quick-access grid. Rest mock data. |
 | `/login` | `login.tsx` | Real Strapi login form. Exports shared `AuthField`. |
 | `/forgot-password` | `forgot-password.tsx` | Real Strapi forgot-password flow. Exports `AuthLayout`. |
 | `/reset-password` | `reset-password.tsx` | Real Strapi reset via `?code=`. |
-| `/training` | `training.tsx` | Weekly list of daily training videos. Mock data. |
+| `/training` | `training.tsx` | Video of today in evidence + up to 7 past/today videos, full-screen player modal. Real Strapi data (`api::video-coach`, via `GET /api/video-coach/me`). |
 | `/test` | `test.tsx` | Physical-test results + a hand-drawn SVG trend chart. Mock data. |
 | `/body` | `body.tsx` | Anatomical body map (front/back images), injury zones + history. Mock data. |
 | `/diet` | `diet.tsx` | Daily meal plan with macros. Mock data. |
 | `/matches` | `matches.tsx` | Match calendar, next match highlighted. Mock data. |
-| `/video-coach` | `video-coach.tsx` | Video-of-the-day home card + up to 7 past/today videos, full-screen player modal. Real Strapi data (ex `/mental` placeholder). |
+| `/mental` | `mental.tsx` | "Mental coach" — work-in-progress placeholder (module preview cards, no real data). |
 | `/highlights` | `highlights.tsx` | Video-clip gallery. Mock data. |
 | `/profile` | `profile.tsx` | Player bio/measurements (mock) + language switch + logout (real). |
 | `/sitemap.xml` | `sitemap[.]xml.ts` | Generated sitemap. |

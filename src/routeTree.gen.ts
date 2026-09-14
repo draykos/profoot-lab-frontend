@@ -16,12 +16,12 @@ import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as HighlightsRouteImport } from './routes/highlights'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as MatchesRouteImport } from './routes/matches'
+import { Route as MentalRouteImport } from './routes/mental'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TestRouteImport } from './routes/test'
 import { Route as TrainingRouteImport } from './routes/training'
-import { Route as VideoCoachRouteImport } from './routes/video-coach'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -58,6 +58,11 @@ const MatchesRoute = MatchesRouteImport.update({
   path: '/matches',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MentalRoute = MentalRouteImport.update({
+  id: '/mental',
+  path: '/mental',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProfileRoute = ProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
@@ -83,11 +88,6 @@ const TrainingRoute = TrainingRouteImport.update({
   path: '/training',
   getParentRoute: () => rootRouteImport,
 } as any)
-const VideoCoachRoute = VideoCoachRouteImport.update({
-  id: '/video-coach',
-  path: '/video-coach',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -97,12 +97,12 @@ export interface FileRoutesByFullPath {
   '/highlights': typeof HighlightsRoute
   '/login': typeof LoginRoute
   '/matches': typeof MatchesRoute
+  '/mental': typeof MentalRoute
   '/profile': typeof ProfileRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/test': typeof TestRoute
   '/training': typeof TrainingRoute
-  '/video-coach': typeof VideoCoachRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -112,12 +112,12 @@ export interface FileRoutesByTo {
   '/highlights': typeof HighlightsRoute
   '/login': typeof LoginRoute
   '/matches': typeof MatchesRoute
+  '/mental': typeof MentalRoute
   '/profile': typeof ProfileRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/test': typeof TestRoute
   '/training': typeof TrainingRoute
-  '/video-coach': typeof VideoCoachRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -128,12 +128,12 @@ export interface FileRoutesById {
   '/highlights': typeof HighlightsRoute
   '/login': typeof LoginRoute
   '/matches': typeof MatchesRoute
+  '/mental': typeof MentalRoute
   '/profile': typeof ProfileRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/test': typeof TestRoute
   '/training': typeof TrainingRoute
-  '/video-coach': typeof VideoCoachRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -145,12 +145,12 @@ export interface FileRouteTypes {
     | '/highlights'
     | '/login'
     | '/matches'
+    | '/mental'
     | '/profile'
     | '/reset-password'
     | '/sitemap.xml'
     | '/test'
     | '/training'
-    | '/video-coach'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -160,12 +160,12 @@ export interface FileRouteTypes {
     | '/highlights'
     | '/login'
     | '/matches'
+    | '/mental'
     | '/profile'
     | '/reset-password'
     | '/sitemap.xml'
     | '/test'
     | '/training'
-    | '/video-coach'
   id:
     | '__root__'
     | '/'
@@ -175,12 +175,12 @@ export interface FileRouteTypes {
     | '/highlights'
     | '/login'
     | '/matches'
+    | '/mental'
     | '/profile'
     | '/reset-password'
     | '/sitemap.xml'
     | '/test'
     | '/training'
-    | '/video-coach'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -191,12 +191,12 @@ export interface RootRouteChildren {
   HighlightsRoute: typeof HighlightsRoute
   LoginRoute: typeof LoginRoute
   MatchesRoute: typeof MatchesRoute
+  MentalRoute: typeof MentalRoute
   ProfileRoute: typeof ProfileRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TestRoute: typeof TestRoute
   TrainingRoute: typeof TrainingRoute
-  VideoCoachRoute: typeof VideoCoachRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -250,6 +250,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MatchesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mental': {
+      id: '/mental'
+      path: '/mental'
+      fullPath: '/mental'
+      preLoaderRoute: typeof MentalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/profile': {
       id: '/profile'
       path: '/profile'
@@ -285,13 +292,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TrainingRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/video-coach': {
-      id: '/video-coach'
-      path: '/video-coach'
-      fullPath: '/video-coach'
-      preLoaderRoute: typeof VideoCoachRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
@@ -303,12 +303,12 @@ const rootRouteChildren: RootRouteChildren = {
   HighlightsRoute: HighlightsRoute,
   LoginRoute: LoginRoute,
   MatchesRoute: MatchesRoute,
+  MentalRoute: MentalRoute,
   ProfileRoute: ProfileRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TestRoute: TestRoute,
   TrainingRoute: TrainingRoute,
-  VideoCoachRoute: VideoCoachRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

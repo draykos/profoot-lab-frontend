@@ -1,6 +1,6 @@
 /**
  * Shared helpers for `api::video-coach.video-coach` data, used by both the dashboard "video del
- * giorno" card (`/`) and the Video Coach section (`/video-coach`).
+ * giorno" card (`/`) and the training video list (`/training`).
  */
 import { strapiMediaUrl, type StrapiVideoCoach, type VideoCoachCategoria } from "@/lib/strapi";
 
