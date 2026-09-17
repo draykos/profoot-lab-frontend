@@ -16,18 +16,6 @@ import {
 
 const STORAGE_KEY = "profoot_auth";
 
-/** TEMP: test-only credentials, to remove once the backoffice is live. */
-const DEV_EMAIL = "admin@test.com";
-const DEV_PASSWORD = "admin";
-const DEV_JWT = "12345678";
-const DEV_USER: StrapiUser = {
-  id: 0,
-  username: "admin",
-  email: DEV_EMAIL,
-  confirmed: true,
-  blocked: false,
-};
-
 interface StoredSession {
   jwt: string;
   user: StrapiUser;
@@ -91,7 +79,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setLoading(false);
 
     // Best-effort revalidation against Strapi (revoked / blocked users).
-    if (stored && stored.jwt !== DEV_JWT) {
+    if (stored) {
       strapiMe(stored.jwt).catch((err: unknown) => {
         const status = (err as { status?: number }).status;
         if (status === 401 || status === 403) {
@@ -114,14 +102,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = useCallback(
     async (identifier: string, password: string) => {
-      // TEMP backdoor for testing until the Strapi backoffice is ready.
-      if (
-        identifier.trim().toLowerCase() === DEV_EMAIL &&
-        password === DEV_PASSWORD
-      ) {
-        setSession(DEV_JWT, DEV_USER);
-        return;
-      }
       const res = await strapiLogin(identifier, password);
       setSession(res.jwt, res.user);
     },
