@@ -16,9 +16,8 @@ services:
       - key: NODE_VERSION
         value: "20"
       # Public URL of the deployed profoot-lab-backend Render service.
-      # Set once the backend is deployed and its URL is known.
       - key: VITE_STRAPI_URL
-        sync: false
+        value: https://profoot-lab-backend.onrender.com
       # Public URL of this frontend service itself (canonical/OG tags, sitemap).
       - key: VITE_BASE_URL
         sync: false
