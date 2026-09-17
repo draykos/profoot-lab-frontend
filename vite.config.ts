@@ -12,4 +12,10 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  // Pins the build to Nitro's Node preset for Render (a plain Node web service).
+  // Ignored inside the Lovable sandbox, which always forces cloudflare-module regardless
+  // of this option — see @lovable.dev/vite-tanstack-config's nitro option docs.
+  nitro: {
+    preset: "render_com",
+  },
 });

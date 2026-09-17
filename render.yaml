@@ -1,0 +1,24 @@
+# Render Blueprint for profoot-lab-frontend.
+# Create a new Blueprint Instance at https://dashboard.render.com/select-repo?type=blueprint
+# and point it at this repo/branch.
+#
+# The Nitro build preset (render_com) is pinned in vite.config.ts, not here.
+services:
+  - type: web
+    name: profoot-lab-frontend
+    runtime: node
+    plan: 0.5c-512mb
+    region: frankfurt
+    branch: main
+    buildCommand: bun install && bun run build
+    startCommand: node .output/server/index.mjs
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      # Public URL of the deployed profoot-lab-backend Render service.
+      # Set once the backend is deployed and its URL is known.
+      - key: VITE_STRAPI_URL
+        sync: false
+      # Public URL of this frontend service itself (canonical/OG tags, sitemap).
+      - key: VITE_BASE_URL
+        sync: false
