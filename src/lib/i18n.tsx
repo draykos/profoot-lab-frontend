@@ -39,9 +39,31 @@ const dict = {
     it: { home: "Home", train: "Train", test: "Test", body: "Corpo", profile: "Profilo" },
     en: { home: "Home", train: "Train", test: "Test", body: "Body", profile: "Profile" },
   },
+  pwa: {
+    it: {
+      install_title: "Installa Profoot Lab",
+      install_desc: "Aggiungila alla schermata Home per aprirla come un'app, anche offline.",
+      install_cta: "Installa",
+      ios_title: "Installa Profoot Lab",
+      ios_desc_before: "Tocca",
+      ios_desc_share: "Condividi",
+      ios_desc_after: 'qui sotto, poi "Aggiungi alla schermata Home".',
+      dismiss: "Non ora",
+    },
+    en: {
+      install_title: "Install Profoot Lab",
+      install_desc: "Add it to your Home Screen to open it like an app, even offline.",
+      install_cta: "Install",
+      ios_title: "Install Profoot Lab",
+      ios_desc_before: "Tap",
+      ios_desc_share: "Share",
+      ios_desc_after: 'below, then "Add to Home Screen".',
+      dismiss: "Not now",
+    },
+  },
   home: {
     it: {
-      hello: "Ciao, Luca",
+      hello: "Ciao",
       ready: "Pronto per oggi?",
       video_of_day: "Video del giorno",
       next_match: "Prossima partita",
@@ -64,7 +86,7 @@ const dict = {
       qa_mental_sub: "Nuovo modulo",
     },
     en: {
-      hello: "Hi, Luca",
+      hello: "Hi",
       ready: "Ready for today?",
       video_of_day: "Video of the day",
       next_match: "Next match",

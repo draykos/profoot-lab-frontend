@@ -8,16 +8,21 @@ export const Route = createFileRoute("/diet")({
   head: () => ({
     meta: [
       { title: "Dieta — Profoot Lab" },
-      { name: "description", content: "Piano alimentare giornaliero per calciatori: orari, pasti, calorie e macro per ogni allenamento e partita." },
+      {
+        name: "description",
+        content:
+          "Piano alimentare giornaliero per calciatori: orari, pasti, calorie e macro per ogni allenamento e partita.",
+      },
       { property: "og:title", content: "Dieta — Profoot Lab" },
-      { property: "og:description", content: "Piano alimentare su misura per l'atleta: orari, alimenti e valori nutrizionali." },
+      {
+        property: "og:description",
+        content: "Piano alimentare su misura per l'atleta: orari, alimenti e valori nutrizionali.",
+      },
       { property: "og:type", content: "website" },
       { property: "og:url", content: absoluteUrl("/diet") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [
-      { rel: "canonical", href: absoluteUrl("/diet") },
-    ],
+    links: [{ rel: "canonical", href: absoluteUrl("/diet") }],
   }),
 });
 
@@ -34,11 +39,24 @@ type Meal = {
 };
 
 const meals: Meal[] = [
-  { time: "07:30", nameKey: "breakfast", dishKey: "dish1", kcal: 520, macros: { c: 65, p: 20, f: 12 }, active: true },
+  {
+    time: "07:30",
+    nameKey: "breakfast",
+    dishKey: "dish1",
+    kcal: 520,
+    macros: { c: 65, p: 20, f: 12 },
+    active: true,
+  },
   { time: "10:30", nameKey: "snack", dishKey: "dish2", kcal: 280, macros: { c: 22, p: 18, f: 12 } },
   { time: "13:00", nameKey: "lunch", dishKey: "dish3", kcal: 720, macros: { c: 80, p: 35, f: 18 } },
   { time: "16:30", nameKey: "pre", dishKey: "dish4", kcal: 340, macros: { c: 55, p: 8, f: 10 } },
-  { time: "20:30", nameKey: "dinner", dishKey: "dish5", kcal: 590, macros: { c: 45, p: 48, f: 14 } },
+  {
+    time: "20:30",
+    nameKey: "dinner",
+    dishKey: "dish5",
+    kcal: 590,
+    macros: { c: 45, p: 48, f: 14 },
+  },
 ];
 
 const totalKcal = meals.reduce((a, m) => a + m.kcal, 0);

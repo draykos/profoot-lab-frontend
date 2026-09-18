@@ -9,16 +9,18 @@ export const Route = createFileRoute("/highlights")({
   head: () => ({
     meta: [
       { title: "Highlights — Profoot Lab" },
-      { name: "description", content: "Le tue clip migliori dalle partite: gol, assist e azioni decisive da rivedere e condividere." },
+      {
+        name: "description",
+        content:
+          "Le tue clip migliori dalle partite: gol, assist e azioni decisive da rivedere e condividere.",
+      },
       { property: "og:title", content: "Highlights — Profoot Lab" },
       { property: "og:description", content: "Le tue clip migliori dalle partite." },
       { property: "og:type", content: "website" },
       { property: "og:url", content: absoluteUrl("/highlights") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [
-      { rel: "canonical", href: absoluteUrl("/highlights") },
-    ],
+    links: [{ rel: "canonical", href: absoluteUrl("/highlights") }],
   }),
 });
 
@@ -27,10 +29,38 @@ type ClipKey = "c1" | "c2" | "c3" | "c4";
 type Clip = { titleKey: ClipKey; dateIt: string; dateEn: string; dur: string; cover: string };
 
 const clips: Clip[] = [
-  { titleKey: "c1", dateIt: "18 feb", dateEn: "Feb 18", dur: "0:24", cover: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=600&q=60" },
-  { titleKey: "c2", dateIt: "10 feb", dateEn: "Feb 10", dur: "0:15", cover: "https://images.unsplash.com/photo-1517927033932-b3d18e61fb3a?auto=format&fit=crop&w=600&q=60" },
-  { titleKey: "c3", dateIt: "03 feb", dateEn: "Feb 3", dur: "0:11", cover: "https://images.unsplash.com/photo-1521412644187-c49fa049e84d?auto=format&fit=crop&w=600&q=60" },
-  { titleKey: "c4", dateIt: "28 gen", dateEn: "Jan 28", dur: "0:38", cover: "https://images.unsplash.com/photo-1526232761682-d26e03ac148e?auto=format&fit=crop&w=600&q=60" },
+  {
+    titleKey: "c1",
+    dateIt: "18 feb",
+    dateEn: "Feb 18",
+    dur: "0:24",
+    cover:
+      "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=600&q=60",
+  },
+  {
+    titleKey: "c2",
+    dateIt: "10 feb",
+    dateEn: "Feb 10",
+    dur: "0:15",
+    cover:
+      "https://images.unsplash.com/photo-1517927033932-b3d18e61fb3a?auto=format&fit=crop&w=600&q=60",
+  },
+  {
+    titleKey: "c3",
+    dateIt: "03 feb",
+    dateEn: "Feb 3",
+    dur: "0:11",
+    cover:
+      "https://images.unsplash.com/photo-1521412644187-c49fa049e84d?auto=format&fit=crop&w=600&q=60",
+  },
+  {
+    titleKey: "c4",
+    dateIt: "28 gen",
+    dateEn: "Jan 28",
+    dur: "0:38",
+    cover:
+      "https://images.unsplash.com/photo-1526232761682-d26e03ac148e?auto=format&fit=crop&w=600&q=60",
+  },
 ];
 
 function HighlightsPage() {
@@ -57,7 +87,7 @@ function HighlightsPage() {
 
       <div className="grid grid-cols-2 gap-3">
         {clips.slice(1).map((c, i) => (
-          <button key={i} className="text-left">
+          <button key={i} className="cursor-pointer text-left">
             <Card className="!p-0 overflow-hidden ring-0">
               <div className="relative aspect-square overflow-hidden">
                 <img src={c.cover} alt="" loading="lazy" className="size-full object-cover" />

@@ -64,7 +64,7 @@ function ProfilePage() {
   const roleLine = atleta
     ? [
         atleta.ruolo ? (t as unknown as Record<string, string>)[RUOLO_KEY[atleta.ruolo]] : null,
-        atleta.squadra?.nome ?? null,
+        atleta.squadra ?? null,
       ]
         .filter(Boolean)
         .join(" • ") || t.role_unset
