@@ -22,6 +22,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { LanguageProvider } from "../lib/i18n";
 import { AuthProvider } from "../lib/auth";
 import { PwaUpdater } from "../lib/pwa";
+import { PwaInstallBanner } from "../lib/pwaInstall";
 
 
 
@@ -143,6 +144,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <PwaUpdater />
       <LanguageProvider>
+        <PwaInstallBanner />
         <AuthProvider>
           <Outlet />
         </AuthProvider>
