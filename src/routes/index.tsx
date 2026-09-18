@@ -15,7 +15,12 @@ import { AppShell, Card } from "@/components/AppShell";
 import { useLang, useT } from "@/lib/i18n";
 import { absoluteUrl } from "@/lib/site";
 import { useAuth } from "@/lib/auth";
-import { strapiInfortuni, strapiVideoCoach, type StrapiVideoCoach } from "@/lib/strapi";
+import {
+  strapiAtleta,
+  strapiInfortuni,
+  strapiVideoCoach,
+  type StrapiVideoCoach,
+} from "@/lib/strapi";
 import { pickHomeInjury, zoneLabel, STATO_TO_SEVERITY, type Severity } from "@/lib/infortuni";
 import {
   categoriaLabel,
@@ -77,6 +82,15 @@ function HomePage() {
     enabled: !!jwt,
   });
 
+  const { data: atletaData } = useQuery({
+    queryKey: ["atleta", jwt],
+    queryFn: () => strapiAtleta(jwt as string),
+    enabled: !!jwt,
+  });
+
+  const atletaNome = atletaData?.data?.nome;
+  const greeting = atletaNome ? `${t.hello}, ${atletaNome}` : t.hello;
+
   const locale = lang === "it" ? "it-IT" : "en-GB";
   const tvRecord = tv as unknown as Record<string, string>;
   const dayLabels = { today: td.today, yesterday: td.yesterday };
@@ -116,7 +130,7 @@ function HomePage() {
   ] as const;
 
   return (
-    <AppShell eyebrow={t.hello} title={t.ready}>
+    <AppShell eyebrow={greeting} title={t.ready}>
       {/* Video del giorno */}
       {heroVideo && (
         <button

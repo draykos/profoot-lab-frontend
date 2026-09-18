@@ -193,7 +193,7 @@ export interface StrapiAtleta {
   numeroMaglia: number | null;
   proStatus: boolean;
   avatar: StrapiMedia | null;
-  squadra: { nome: string } | null;
+  squadra: string | null;
 }
 
 /** GET /api/atleta/me — profile of the athlete linked to the current user. */

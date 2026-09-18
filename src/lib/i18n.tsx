@@ -41,7 +41,7 @@ const dict = {
   },
   home: {
     it: {
-      hello: "Ciao, Luca",
+      hello: "Ciao",
       ready: "Pronto per oggi?",
       video_of_day: "Video del giorno",
       next_match: "Prossima partita",
@@ -64,7 +64,7 @@ const dict = {
       qa_mental_sub: "Nuovo modulo",
     },
     en: {
-      hello: "Hi, Luca",
+      hello: "Hi",
       ready: "Ready for today?",
       video_of_day: "Video of the day",
       next_match: "Next match",
