@@ -16,6 +16,7 @@ import {
   setUnauthorizedHandler,
   type StrapiUser,
 } from "./strapi";
+import { safeStorage } from "./safeStorage";
 
 const STORAGE_KEY = "profoot_auth";
 
@@ -51,9 +52,10 @@ function needsRefresh(token: string): boolean {
 }
 
 function readStoredSession(): StoredSession | null {
+  const raw = safeStorage.getItem(STORAGE_KEY);
+  if (!raw) return null;
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return null;
+    // Guards against corrupted/malformed stored JSON, not storage availability.
     const parsed = JSON.parse(raw) as StoredSession;
     return parsed?.jwt ? parsed : null;
   } catch {
@@ -91,22 +93,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const setSession = useCallback(
     (jwt: string, user: StrapiUser) => {
       const next = { jwt, user };
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-      } catch {
-        /* storage unavailable */
-      }
+      safeStorage.setItem(STORAGE_KEY, JSON.stringify(next));
       applySession(next);
     },
     [applySession],
   );
 
   const logout = useCallback(() => {
-    try {
-      localStorage.removeItem(STORAGE_KEY);
-    } catch {
-      /* storage unavailable */
-    }
+    safeStorage.removeItem(STORAGE_KEY);
     applySession(null);
   }, [applySession]);
 
