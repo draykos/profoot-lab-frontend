@@ -7,6 +7,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { safeStorage } from "./safeStorage";
 
 export type Lang = "it" | "en";
 
@@ -518,35 +519,27 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>("it");
 
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved === "en" || saved === "it") setLangState(saved);
-      else {
-        const nav = typeof navigator !== "undefined" ? navigator.language : "";
-        if (nav && !nav.toLowerCase().startsWith("it")) setLangState("en");
-      }
-    } catch {}
+    const saved = safeStorage.getItem(STORAGE_KEY);
+    if (saved === "en" || saved === "it") setLangState(saved);
+    else {
+      const nav = typeof navigator !== "undefined" ? navigator.language : "";
+      if (nav && !nav.toLowerCase().startsWith("it")) setLangState("en");
+    }
   }, []);
 
   useEffect(() => {
-    try {
-      document.documentElement.lang = lang;
-    } catch {}
+    document.documentElement.lang = lang;
   }, [lang]);
 
   const setLang = useCallback((l: Lang) => {
     setLangState(l);
-    try {
-      localStorage.setItem(STORAGE_KEY, l);
-    } catch {}
+    safeStorage.setItem(STORAGE_KEY, l);
   }, []);
 
   const toggle = useCallback(() => {
     setLangState((prev) => {
       const next: Lang = prev === "it" ? "en" : "it";
-      try {
-        localStorage.setItem(STORAGE_KEY, next);
-      } catch {}
+      safeStorage.setItem(STORAGE_KEY, next);
       return next;
     });
   }, []);
