@@ -21,6 +21,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { LanguageProvider } from "../lib/i18n";
 import { AuthProvider } from "../lib/auth";
+import { PwaUpdater } from "../lib/pwa";
 
 
 
@@ -140,6 +141,7 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   return (
     <QueryClientProvider client={queryClient}>
+      <PwaUpdater />
       <LanguageProvider>
         <AuthProvider>
           <Outlet />
