@@ -1,0 +1,15 @@
+# Normalize line endings to LF for all text files, regardless of the checkout OS's
+# core.autocrlf setting — Prettier/ESLint expect LF and previously flagged every line
+# of every file as an error on a Windows checkout.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary

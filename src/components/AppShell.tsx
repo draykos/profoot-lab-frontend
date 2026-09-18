@@ -24,7 +24,6 @@ export function AppShell({ title, eyebrow, children, action }: AppShellProps) {
     );
   }
 
-
   const navItems = [
     { to: "/", label: nav.home, icon: Home },
     { to: "/training", label: nav.train, icon: Dumbbell },
@@ -57,8 +56,7 @@ export function AppShell({ title, eyebrow, children, action }: AppShellProps) {
 
       <nav className="fixed inset-x-0 bottom-4 z-40 mx-auto flex w-[calc(100%-2rem)] max-w-sm items-center justify-between rounded-full border border-border bg-background/80 px-2 py-2 shadow-glow backdrop-blur-xl">
         {navItems.map((item) => {
-          const active =
-            item.to === "/" ? pathname === "/" : pathname.startsWith(item.to);
+          const active = item.to === "/" ? pathname === "/" : pathname.startsWith(item.to);
           const Icon = item.icon;
           return (
             <Link
@@ -86,17 +84,9 @@ export function AppShell({ title, eyebrow, children, action }: AppShellProps) {
   );
 }
 
-export function Card({
-  children,
-  className = "",
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
+export function Card({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
-    <div
-      className={`rounded-2xl bg-card p-4 ring-1 ring-inset ring-border ${className}`}
-    >
+    <div className={`rounded-2xl bg-card p-4 ring-1 ring-inset ring-border ${className}`}>
       {children}
     </div>
   );

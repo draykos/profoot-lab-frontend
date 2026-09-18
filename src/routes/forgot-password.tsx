@@ -10,7 +10,10 @@ export const Route = createFileRoute("/forgot-password")({
   head: () => ({
     meta: [
       { title: "Recupera password — Profoot Lab" },
-      { name: "description", content: "Richiedi il link per reimpostare la password del tuo account Profoot Lab." },
+      {
+        name: "description",
+        content: "Richiedi il link per reimpostare la password del tuo account Profoot Lab.",
+      },
       { name: "robots", content: "noindex" },
     ],
   }),

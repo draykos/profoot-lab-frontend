@@ -9,16 +9,21 @@ export const Route = createFileRoute("/matches")({
   head: () => ({
     meta: [
       { title: "Partite — Profoot Lab" },
-      { name: "description", content: "Calendario partite, prossimo incontro in evidenza, avversari, orari e stadi della stagione." },
+      {
+        name: "description",
+        content:
+          "Calendario partite, prossimo incontro in evidenza, avversari, orari e stadi della stagione.",
+      },
       { property: "og:title", content: "Partite — Profoot Lab" },
-      { property: "og:description", content: "Calendario delle partite e prossimo incontro in evidenza." },
+      {
+        property: "og:description",
+        content: "Calendario delle partite e prossimo incontro in evidenza.",
+      },
       { property: "og:type", content: "website" },
       { property: "og:url", content: absoluteUrl("/matches") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [
-      { rel: "canonical", href: absoluteUrl("/matches") },
-    ],
+    links: [{ rel: "canonical", href: absoluteUrl("/matches") }],
   }),
 });
 
@@ -34,10 +39,46 @@ type Match = {
 };
 
 const upcoming: Match[] = [
-  { home: "Milano FC", away: "Torino", dateIt: "20 mar", dateEn: "Mar 20", time: "20:45", venue: "San Siro", compIt: "Serie A", compEn: "Serie A" },
-  { home: "Napoli", away: "Milano FC", dateIt: "24 mar", dateEn: "Mar 24", time: "18:00", venue: "Maradona", compIt: "Serie A", compEn: "Serie A" },
-  { home: "Milano FC", away: "PSG", dateIt: "02 apr", dateEn: "Apr 2", time: "21:00", venue: "San Siro", compIt: "Champions", compEn: "Champions" },
-  { home: "Bologna", away: "Milano FC", dateIt: "07 apr", dateEn: "Apr 7", time: "15:00", venue: "Dall'Ara", compIt: "Serie A", compEn: "Serie A" },
+  {
+    home: "Milano FC",
+    away: "Torino",
+    dateIt: "20 mar",
+    dateEn: "Mar 20",
+    time: "20:45",
+    venue: "San Siro",
+    compIt: "Serie A",
+    compEn: "Serie A",
+  },
+  {
+    home: "Napoli",
+    away: "Milano FC",
+    dateIt: "24 mar",
+    dateEn: "Mar 24",
+    time: "18:00",
+    venue: "Maradona",
+    compIt: "Serie A",
+    compEn: "Serie A",
+  },
+  {
+    home: "Milano FC",
+    away: "PSG",
+    dateIt: "02 apr",
+    dateEn: "Apr 2",
+    time: "21:00",
+    venue: "San Siro",
+    compIt: "Champions",
+    compEn: "Champions",
+  },
+  {
+    home: "Bologna",
+    away: "Milano FC",
+    dateIt: "07 apr",
+    dateEn: "Apr 7",
+    time: "15:00",
+    venue: "Dall'Ara",
+    compIt: "Serie A",
+    compEn: "Serie A",
+  },
 ];
 
 function MatchesPage() {

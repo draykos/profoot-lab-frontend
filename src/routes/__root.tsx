@@ -21,8 +21,8 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { LanguageProvider } from "../lib/i18n";
 import { AuthProvider } from "../lib/auth";
-
-
+import { PwaUpdater } from "../lib/pwa";
+import { PwaInstallBanner } from "../lib/pwaInstall";
 
 function NotFoundComponent() {
   return (
@@ -59,9 +59,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
         <h1 className="text-xl font-semibold tracking-tight text-foreground">
           Qualcosa è andato storto
         </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Riprova o torna alla home.
-        </p>
+        <p className="mt-2 text-sm text-muted-foreground">Riprova o torna alla home.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
             onClick={() => {
@@ -105,10 +103,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
+      { name: "apple-mobile-web-app-title", content: "Profoot Lab" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+      { rel: "manifest", href: "/manifest.webmanifest" },
     ],
   }),
   shellComponent: RootShell,
@@ -135,13 +138,13 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   return (
     <QueryClientProvider client={queryClient}>
+      <PwaUpdater />
       <LanguageProvider>
+        <PwaInstallBanner />
         <AuthProvider>
           <Outlet />
         </AuthProvider>
       </LanguageProvider>
-
     </QueryClientProvider>
   );
 }
-

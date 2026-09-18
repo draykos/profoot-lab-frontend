@@ -89,7 +89,7 @@ function TrainingPage() {
       {hero && (
         <button
           type="button"
-          className="mb-5 block w-full text-left"
+          className="mb-5 block w-full cursor-pointer text-left"
           onClick={() => setOpenVideo(hero)}
         >
           <Card className="!p-0 overflow-hidden ring-0">
@@ -140,7 +140,7 @@ function TrainingPage() {
                 <button
                   key={v.id}
                   type="button"
-                  className="w-full text-left"
+                  className="w-full cursor-pointer text-left"
                   onClick={() => setOpenVideo(v)}
                 >
                   <Card className="!p-3">
