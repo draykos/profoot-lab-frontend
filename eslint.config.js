@@ -34,6 +34,9 @@ export default tseslint.config(
       ],
       "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
       "@typescript-eslint/no-unused-vars": "off",
+      // Best-effort localStorage/JSON access throughout this codebase intentionally
+      // swallows errors with a bare `catch {}` rather than logging expected failures.
+      "no-empty": ["error", { allowEmptyCatch: true }],
     },
   },
   eslintPluginPrettier,

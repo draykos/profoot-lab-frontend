@@ -24,8 +24,6 @@ import { AuthProvider } from "../lib/auth";
 import { PwaUpdater } from "../lib/pwa";
 import { PwaInstallBanner } from "../lib/pwaInstall";
 
-
-
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -61,9 +59,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
         <h1 className="text-xl font-semibold tracking-tight text-foreground">
           Qualcosa è andato storto
         </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Riprova o torna alla home.
-        </p>
+        <p className="mt-2 text-sm text-muted-foreground">Riprova o torna alla home.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
             onClick={() => {
@@ -149,8 +145,6 @@ function RootComponent() {
           <Outlet />
         </AuthProvider>
       </LanguageProvider>
-
     </QueryClientProvider>
   );
 }
-

@@ -12,12 +12,15 @@ type Search = { code?: string };
 export const Route = createFileRoute("/reset-password")({
   component: ResetPasswordPage,
   validateSearch: (search: Record<string, unknown>): Search => ({
-    code: typeof search['code'] === "string" ? (search['code'] as string) : undefined,
+    code: typeof search["code"] === "string" ? (search["code"] as string) : undefined,
   }),
   head: () => ({
     meta: [
       { title: "Nuova password — Profoot Lab" },
-      { name: "description", content: "Imposta una nuova password per il tuo account Profoot Lab." },
+      {
+        name: "description",
+        content: "Imposta una nuova password per il tuo account Profoot Lab.",
+      },
       { name: "robots", content: "noindex" },
     ],
   }),

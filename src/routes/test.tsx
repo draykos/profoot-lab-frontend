@@ -9,16 +9,21 @@ export const Route = createFileRoute("/test")({
   head: () => ({
     meta: [
       { title: "Test fisici — Profoot Lab" },
-      { name: "description", content: "Risultati e andamento storico dei test di valutazione fisica per monitorare i progressi in campo." },
+      {
+        name: "description",
+        content:
+          "Risultati e andamento storico dei test di valutazione fisica per monitorare i progressi in campo.",
+      },
       { property: "og:title", content: "Test fisici — Profoot Lab" },
-      { property: "og:description", content: "Monitora i tuoi test fisici e il trend dei valori nel tempo." },
+      {
+        property: "og:description",
+        content: "Monitora i tuoi test fisici e il trend dei valori nel tempo.",
+      },
       { property: "og:type", content: "website" },
       { property: "og:url", content: absoluteUrl("/test") },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [
-      { rel: "canonical", href: absoluteUrl("/test") },
-    ],
+    links: [{ rel: "canonical", href: absoluteUrl("/test") }],
   }),
 });
 
@@ -69,7 +74,14 @@ function TestPage() {
               return (
                 <>
                   <path d={area} fill="url(#g1)" />
-                  <path d={path} stroke="var(--accent)" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                  <path
+                    d={path}
+                    stroke="var(--accent)"
+                    strokeWidth="2"
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                   {history.map((v, i) => {
                     const x = (i / (history.length - 1)) * 280;
                     const y = 90 - (v / max) * 80;
@@ -98,11 +110,40 @@ function TestPage() {
       </Card>
 
       <div className="space-y-3">
-        <TestRow name={t.row1} value={lang === "it" ? "52,1 cm" : "52.1 cm"} delta="+3%" lastDays={2} />
-        <TestRow name={t.row2} value={lang === "it" ? "2,88 s" : "2.88 s"} delta={lang === "it" ? "-0,04s" : "-0.04s"} lastDays={5} positive />
-        <TestRow name={t.row3} value={lang === "it" ? "4,12 s" : "4.12 s"} delta={lang === "it" ? "-0,02s" : "-0.02s"} lastDays={5} positive />
-        <TestRow name={t.row4} value={lang === "it" ? "2.240 m" : "2,240 m"} delta="+80m" lastDays={12} positive />
-        <TestRow name={t.row5} value={lang === "it" ? "15,4 s" : "15.4 s"} delta={lang === "it" ? "-0,3s" : "-0.3s"} lastDays={18} positive />
+        <TestRow
+          name={t.row1}
+          value={lang === "it" ? "52,1 cm" : "52.1 cm"}
+          delta="+3%"
+          lastDays={2}
+        />
+        <TestRow
+          name={t.row2}
+          value={lang === "it" ? "2,88 s" : "2.88 s"}
+          delta={lang === "it" ? "-0,04s" : "-0.04s"}
+          lastDays={5}
+          positive
+        />
+        <TestRow
+          name={t.row3}
+          value={lang === "it" ? "4,12 s" : "4.12 s"}
+          delta={lang === "it" ? "-0,02s" : "-0.02s"}
+          lastDays={5}
+          positive
+        />
+        <TestRow
+          name={t.row4}
+          value={lang === "it" ? "2.240 m" : "2,240 m"}
+          delta="+80m"
+          lastDays={12}
+          positive
+        />
+        <TestRow
+          name={t.row5}
+          value={lang === "it" ? "15,4 s" : "15.4 s"}
+          delta={lang === "it" ? "-0,3s" : "-0.3s"}
+          lastDays={18}
+          positive
+        />
       </div>
     </AppShell>
   );
@@ -132,7 +173,9 @@ function TestRow({
       </div>
       <div className="text-right">
         <p className="text-display text-lg font-semibold">{value}</p>
-        <p className={`text-[10px] font-bold uppercase ${positive ? "text-success" : "text-accent"}`}>
+        <p
+          className={`text-[10px] font-bold uppercase ${positive ? "text-success" : "text-accent"}`}
+        >
           {delta}
         </p>
       </div>
