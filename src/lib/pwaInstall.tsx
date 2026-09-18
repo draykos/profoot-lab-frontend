@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Download, Share, X } from "lucide-react";
 import { useT } from "@/lib/i18n";
 import { Card } from "@/components/AppShell";
+import { safeStorage } from "@/lib/safeStorage";
 
 const DISMISSED_KEY = "pwa_install_dismissed";
 
@@ -33,9 +34,7 @@ export function PwaInstallBanner() {
   const [dismissed, setDismissed] = useState(true);
 
   useEffect(() => {
-    try {
-      setDismissed(localStorage.getItem(DISMISSED_KEY) === "1");
-    } catch {}
+    setDismissed(safeStorage.getItem(DISMISSED_KEY) === "1");
 
     if (isStandalone()) return;
 
@@ -60,9 +59,7 @@ export function PwaInstallBanner() {
 
   const dismiss = () => {
     setDismissed(true);
-    try {
-      localStorage.setItem(DISMISSED_KEY, "1");
-    } catch {}
+    safeStorage.setItem(DISMISSED_KEY, "1");
   };
 
   const handleInstall = async () => {
