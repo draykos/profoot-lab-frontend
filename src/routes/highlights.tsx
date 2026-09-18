@@ -57,7 +57,7 @@ function HighlightsPage() {
 
       <div className="grid grid-cols-2 gap-3">
         {clips.slice(1).map((c, i) => (
-          <button key={i} className="text-left">
+          <button key={i} className="cursor-pointer text-left">
             <Card className="!p-0 overflow-hidden ring-0">
               <div className="relative aspect-square overflow-hidden">
                 <img src={c.cover} alt="" loading="lazy" className="size-full object-cover" />

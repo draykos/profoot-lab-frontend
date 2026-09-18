@@ -135,7 +135,7 @@ function HomePage() {
       {heroVideo && (
         <button
           type="button"
-          className="mb-4 block w-full text-left"
+          className="mb-4 block w-full cursor-pointer text-left"
           onClick={() => setOpenVideo(heroVideo)}
         >
           <Card className="!p-0 overflow-hidden ring-0">
