@@ -30,20 +30,52 @@ export class StrapiError extends Error {
   }
 }
 
+/**
+ * Called on a 401 from a token-bearing request. Expected to refresh the access token (using the
+ * httpOnly refresh cookie) and return the new one, or `null` if the refresh itself failed — in
+ * which case the original 401 is surfaced normally. Registered by `AuthProvider`; requests made
+ * before it registers (or after it unregisters) just get the plain 401.
+ */
+type UnauthorizedHandler = () => Promise<string | null>;
+let unauthorizedHandler: UnauthorizedHandler | null = null;
+
+export function setUnauthorizedHandler(handler: UnauthorizedHandler | null): void {
+  unauthorizedHandler = handler;
+}
+
 async function request<T>(path: string, init?: RequestInit & { token?: string }): Promise<T> {
   const { token, headers, ...rest } = init ?? {};
-  let res: Response;
-  try {
-    res = await fetch(`${STRAPI_URL}${path}`, {
+
+  const doFetch = (bearer?: string) =>
+    fetch(`${STRAPI_URL}${path}`, {
       ...rest,
+      // Sends/receives the httpOnly refresh-token cookie set by the users-permissions plugin.
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...(bearer ? { Authorization: `Bearer ${bearer}` } : {}),
         ...(headers ?? {}),
       },
     });
+
+  let res: Response;
+  try {
+    res = await doFetch(token);
   } catch {
     throw new StrapiError("network", 0);
+  }
+
+  // Only retry token-bearing calls — a 401 from /auth/local or /auth/refresh itself is a real
+  // auth failure (wrong credentials, or expired/invalid refresh token), not an expired access token.
+  if (res.status === 401 && token && unauthorizedHandler) {
+    const newToken = await unauthorizedHandler();
+    if (newToken) {
+      try {
+        res = await doFetch(newToken);
+      } catch {
+        throw new StrapiError("network", 0);
+      }
+    }
   }
 
   const body = (await res.json().catch(() => null)) as {
@@ -83,6 +115,14 @@ export function strapiResetPassword(code: string, password: string, passwordConf
 /** GET /api/users/me — validates the stored JWT against Strapi. */
 export function strapiMe(token: string) {
   return request<StrapiUser>("/api/users/me", { method: "GET", token });
+}
+
+/**
+ * POST /api/auth/refresh — exchanges the httpOnly refresh cookie (sent automatically) for a new
+ * access token. Throws `StrapiError` (401) if the refresh token is missing, expired, or revoked.
+ */
+export function strapiRefresh() {
+  return request<{ jwt: string }>("/api/auth/refresh", { method: "POST" });
 }
 
 /** Anatomical zone enum of `api::infortunio.infortunio` (side-agnostic — see `lato`). */
