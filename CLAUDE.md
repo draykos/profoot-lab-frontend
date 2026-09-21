@@ -5,8 +5,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## What this project is
 
 `profoot-lab-frontend` is the player-facing frontend of **Profoot-Lab**, an app for professional
-footballers. It was **generated with [Lovable](https://lovable.dev)** and is developed further
-locally; the two stay in sync through the `main` branch (see `AGENTS.md`).
+footballers. It was originally scaffolded with [Lovable](https://lovable.dev); the project is no
+longer connected to the Lovable editor and is developed independently.
 
 The companion repo `profoot-lab-backend` (a Strapi CMS, still to be built) is the intended data
 source. Today the only real backend integration is authentication — every other screen renders
@@ -19,7 +19,7 @@ source. Today the only real backend integration is authentication — every othe
 - **TanStack Query** — client provided in `src/router.tsx`, not yet used for data fetching
 - **Tailwind CSS v4** (CSS-first config) + **shadcn/ui** (new-york style, `src/components/ui/`)
 - **Bun** as package manager (`bun.lock`, `bunfig.toml`)
-- Deploy target: Cloudflare (via `nitro`, bundled in the Lovable Vite preset)
+- Deploy target: Render, a Node web service (via `nitro`'s `render_com` preset)
 - TypeScript strict mode; path alias `@/*` → `src/*`
 
 ## Commands
@@ -63,9 +63,6 @@ adding entries to `minimumReleaseAgeExcludes`.
 layout. Route conventions are documented in `src/routes/README.md` (do not introduce `src/pages/` or
 `app/layout.tsx` — those are Next.js/Remix patterns).
 
-Most `head()` blocks contain canonical/OG URLs pointing at a `kick-start-coach-39.lovable.app`
-preview domain — update these when the real domain is known.
-
 ### Library code (`src/lib/`)
 
 - **`strapi.ts`** — the entire backend client. Users & Permissions REST only: `strapiLogin`
@@ -83,8 +80,8 @@ preview domain — update these when the real domain is known.
   `useT("namespace")` returns the string bag for the active language. `it` (default) and `en`,
   persisted in `localStorage` key `atleta_lang`. **All UI copy for every screen currently lives
   here**, alongside a lot of the mock content. `LanguageToggle` / `LanguageProvider` also exported.
-- **`error-capture.ts`, `error-page.ts`, `lovable-error-reporting.ts`** — support the custom SSR
-  error handling in `src/server.ts` / `src/start.ts`.
+- **`error-capture.ts`, `error-page.ts`** — support the custom SSR error handling in
+  `src/server.ts` / `src/start.ts`.
 
 ### Components
 
@@ -105,18 +102,16 @@ preview domain — update these when the real domain is known.
 
 ### Server / build wiring
 
-- `vite.config.ts` uses `@lovable.dev/vite-tanstack-config`, which **already includes** tanstackStart,
-  viteReact, tailwindcss, tsConfigPaths, nitro, the `@` alias, env injection, and error-logger
-  plugins. Do **not** re-add any of these — duplicates break the build.
+- `vite.config.ts` uses `@lovable.dev/vite-tanstack-config` purely as a build dependency (the project
+  is no longer connected to Lovable) — it **already includes** tanstackStart, viteReact, tailwindcss,
+  tsConfigPaths, nitro, the `@` alias, env injection, and error-logger plugins. Do **not** re-add any
+  of these — duplicates break the build.
 - `src/server.ts` — custom server entry wrapping `@tanstack/react-start/server-entry`; converts
   h3-swallowed 500 JSON responses into a real HTML error page.
 - `src/start.ts` — `createStart` with an error-catching request middleware.
 
 ## Working with this repo
 
-- Connected to Lovable: **do not rewrite pushed git history** (no force-push / rebase / amend /
-  squash of pushed commits) and keep `main` in a working state, since commits sync back to the
-  Lovable editor.
 - When wiring a screen to real data, replace the in-component mock arrays and move fetches into
   TanStack Query hooks that call a (to-be-expanded) `src/lib/strapi.ts`; keep display strings in
   `src/lib/i18n.tsx`.

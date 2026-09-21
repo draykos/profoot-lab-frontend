@@ -174,6 +174,10 @@ function ProfilePage() {
       <p className="mt-4 text-center text-xs text-muted-foreground">
         {t.version} {__APP_VERSION__}
       </p>
+
+      {/* Extra scroll room so the version text above isn't left stuck under the mobile
+          browser's own bottom chrome when the page content is short enough to not scroll. */}
+      <div aria-hidden="true" className="h-80" />
     </AppShell>
   );
 }

@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import Hls from "hls.js";
 import { X } from "lucide-react";
 import type { VideoModalData } from "@/lib/video-coach";
 
@@ -10,10 +11,18 @@ interface VideoPlayerModalProps {
 
 /**
  * Full-screen player overlay, reused by the home "video del giorno" card and the Video Coach
- * list. Renders nothing (and unmounts the iframe) when `video` is null, so playback actually
- * stops on close instead of continuing muted in the background.
+ * list. Renders nothing (and unmounts the video) when `video` is null, so playback actually stops
+ * on close instead of continuing muted in the background.
+ *
+ * Plays the Bunny Stream HLS URL through a native <video> element (hls.js on browsers without
+ * native HLS support — everything but Safari) instead of Bunny's iframe embed. This hands sizing
+ * to the browser's normal replaced-element layout (`max-h-[75vh] max-w-full` on the <video> itself,
+ * a real element with a real intrinsic aspect ratio) instead of guessing a fixed aspect ratio or
+ * depending on a third-party page's own — unpredictable — resize behavior.
  */
 export function VideoPlayerModal({ video, onClose, closeLabel }: VideoPlayerModalProps) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
   useEffect(() => {
     if (!video) return;
     const onKeyDown = (e: KeyboardEvent) => {
@@ -28,9 +37,23 @@ export function VideoPlayerModal({ video, onClose, closeLabel }: VideoPlayerModa
     };
   }, [video, onClose]);
 
-  if (!video) return null;
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!video || !el) return;
 
-  const src = `${video.video}${video.video.includes("?") ? "&" : "?"}autoplay=true`;
+    if (el.canPlayType("application/vnd.apple.mpegurl")) {
+      el.src = video.video;
+      return;
+    }
+
+    if (!Hls.isSupported()) return;
+    const hls = new Hls();
+    hls.loadSource(video.video);
+    hls.attachMedia(el);
+    return () => hls.destroy();
+  }, [video]);
+
+  if (!video) return null;
 
   return (
     <div
@@ -54,16 +77,16 @@ export function VideoPlayerModal({ video, onClose, closeLabel }: VideoPlayerModa
             <X className="size-5" />
           </button>
         </div>
-        <div className="aspect-video w-full overflow-hidden rounded-xl bg-black">
-          <iframe
-            key={video.video}
-            src={src}
-            title={video.titolo}
-            className="size-full"
-            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
-            allowFullScreen
-          />
-        </div>
+        <video
+          ref={videoRef}
+          key={video.video}
+          className="mx-auto block max-h-[75vh] w-auto max-w-full rounded-xl bg-black"
+          poster={video.poster}
+          controls
+          autoPlay
+          playsInline
+          title={video.titolo}
+        />
       </div>
     </div>
   );
