@@ -5,7 +5,7 @@
 //     React/TanStack dedupe, error logger plugins, and sandbox detection (port/host/strictPort).
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
-import { VitePWA } from "vite-plugin-pwa";
+import { VitePWA, type VitePWAOptions } from "vite-plugin-pwa";
 
 export default defineConfig({
   tanstackStart: {
@@ -24,7 +24,11 @@ export default defineConfig({
       // manifest.webmanifest and all icons already live in public/ and are linked by hand
       // in src/routes/__root.tsx — don't let the plugin generate or inject its own.
       manifest: false,
-      injectManifest: false,
+      // The plugin's own .d.ts declares this as `Partial<CustomInjectManifestOptions>`, missing
+      // the `| false` that `manifest`/`injectRegister` above have — even though the runtime
+      // happily treats a falsy value as "use defaults" (see vite-plugin-pwa's
+      // `options.injectManifest || {}`). Cast through `unknown` to work around that upstream gap.
+      injectManifest: false as unknown as VitePWAOptions["injectManifest"],
       injectRegister: false,
       // TanStack Start has no index.html for the plugin to transform; registration is
       // done manually via the `virtual:pwa-register` module (see src/lib/pwa.tsx).
