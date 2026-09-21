@@ -170,6 +170,10 @@ function ProfilePage() {
       >
         <LogOut className="size-4" /> {t.logout}
       </button>
+
+      <p className="mt-4 text-center text-xs text-muted-foreground">
+        {t.version} {__APP_VERSION__}
+      </p>
     </AppShell>
   );
 }
