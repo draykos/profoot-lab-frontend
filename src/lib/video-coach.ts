@@ -77,6 +77,20 @@ export interface VideoModalData {
   dateLabel: string;
 }
 
+const BUNNY_PLAY_URL = /^https:\/\/player\.mediadelivery\.net\/play\/(\d+)\/([0-9a-f-]+)/i;
+
+/**
+ * Bunny Stream's "play" page (`player.mediadelivery.net/play/...`, the URL shown by its share/copy
+ * link) is a standalone page meant to be opened on its own — inside an iframe it renders the video
+ * at a small fixed size instead of filling the container. Only the "embed" URL
+ * (`iframe.mediadelivery.net/embed/...`) is built to be responsive in an iframe, so normalize here
+ * in case a play URL was pasted into the content-type field.
+ */
+function toEmbedUrl(url: string): string {
+  const match = url.match(BUNNY_PLAY_URL);
+  return match ? `https://iframe.mediadelivery.net/embed/${match[1]}/${match[2]}` : url;
+}
+
 /** Maps a video-coach record to what `VideoPlayerModal` needs to render — pre-translated. */
 export function toModalVideo(
   v: StrapiVideoCoach,
@@ -86,7 +100,7 @@ export function toModalVideo(
 ): VideoModalData {
   return {
     titolo: v.titolo,
-    video: v.video,
+    video: toEmbedUrl(v.video),
     categoriaLabel: categoriaLabel(categoriaT, v.categoria),
     dateLabel: dayLabel(dayLabels, v.data, locale),
   };
