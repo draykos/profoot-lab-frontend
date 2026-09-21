@@ -217,7 +217,6 @@ export interface StrapiVideoCoach {
   durataMinuti: number | null;
   data: string;
   video: string;
-  copertina: StrapiMedia | null;
 }
 
 /**
