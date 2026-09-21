@@ -23,6 +23,7 @@ import { LanguageProvider } from "../lib/i18n";
 import { AuthProvider } from "../lib/auth";
 import { PwaUpdater } from "../lib/pwa";
 import { PwaInstallBanner } from "../lib/pwaInstall";
+import { StaleForegroundReload } from "../lib/staleForegroundReload";
 
 function NotFoundComponent() {
   return (
@@ -139,6 +140,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <PwaUpdater />
+      <StaleForegroundReload />
       <LanguageProvider>
         <PwaInstallBanner />
         <AuthProvider>
