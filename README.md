@@ -24,23 +24,13 @@
 
 10. **Mental coach** — sezione ancora da definire nel dettaglio: per ora un placeholder/entry point coerente con le altre sezioni
 
-This project was built with [Lovable](https://lovable.dev).
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/4e3aa963-cf2d-479f-9e84-a8e5b1618b33).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
 ## Development
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Package manager: [Bun](https://bun.sh).
 
 ```sh
 git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+cd profoot-lab-frontend
+bun install
+bun run dev
 ```
