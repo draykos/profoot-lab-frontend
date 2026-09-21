@@ -2,7 +2,7 @@
  * Shared helpers for `api::video-coach.video-coach` data, used by both the dashboard "video del
  * giorno" card (`/`) and the training video list (`/training`).
  */
-import { strapiMediaUrl, type StrapiVideoCoach, type VideoCoachCategoria } from "@/lib/strapi";
+import type { StrapiVideoCoach, VideoCoachCategoria } from "@/lib/strapi";
 
 function toISODate(date: Date): string {
   const y = date.getFullYear();
@@ -34,9 +34,13 @@ export function featuredVideo(list: StrapiVideoCoach[]): StrapiVideoCoach | null
   return visibleVideos(list)[0] ?? null;
 }
 
-/** Resolves the cover image, falling back to the bundled placeholder when none was uploaded. */
+/**
+ * Cover image, sourced from Bunny's auto-generated video thumbnail rather than the Strapi
+ * `copertina` field (ignored entirely — editorial control over the thumbnail, if ever needed,
+ * happens by uploading a custom one in the Bunny dashboard for that video, not in Strapi).
+ */
 export function videoThumbnail(v: StrapiVideoCoach): string {
-  return strapiMediaUrl(v.copertina) ?? "/video-coach-fallback.jpg";
+  return toThumbnailUrl(v.video);
 }
 
 const CATEGORIA_KEY: Record<VideoCoachCategoria, string> = {
@@ -73,22 +77,47 @@ export function dayLabel(labels: DayLabels, dataISO: string, locale: string): st
 export interface VideoModalData {
   titolo: string;
   video: string;
+  poster: string;
   categoriaLabel: string | null;
   dateLabel: string;
 }
 
 const BUNNY_PLAY_URL = /^https:\/\/player\.mediadelivery\.net\/play\/(\d+)\/([0-9a-f-]+)/i;
 
+// TEMPORARY: hardcoded pull zone hostname for the native <video> + hls.js migration test. Move to
+// an env var (alongside VITE_STRAPI_URL) once this approach is confirmed.
+const BUNNY_PULL_ZONE_HOST = "vz-88c9ce19-ea7.b-cdn.net";
+
 /**
  * Bunny Stream's "play" page (`player.mediadelivery.net/play/...`, the URL shown by its share/copy
- * link) is a standalone page meant to be opened on its own — inside an iframe it renders the video
- * at a small fixed size instead of filling the container. Only the "embed" URL
- * (`iframe.mediadelivery.net/embed/...`) is built to be responsive in an iframe, so normalize here
- * in case a play URL was pasted into the content-type field.
+ * link) only encodes `libraryId`/`videoId` — extract the video GUID, everything else (HLS
+ * playlist, thumbnail) is served from the same pull zone at a predictable path built from it.
  */
-function toEmbedUrl(url: string): string {
+function extractVideoId(url: string): string | null {
   const match = url.match(BUNNY_PLAY_URL);
-  return match ? `https://iframe.mediadelivery.net/embed/${match[1]}/${match[2]}` : url;
+  return match?.[2] ?? null;
+}
+
+/**
+ * Direct HLS playlist URL for native <video>/hls.js playback, instead of Bunny's iframe embed
+ * (which doesn't size correctly for non-16:9 content and resizes unpredictably after load — see
+ * conversation/investigation notes).
+ */
+function toHlsUrl(url: string): string {
+  const videoId = extractVideoId(url);
+  return videoId ? `https://${BUNNY_PULL_ZONE_HOST}/${videoId}/playlist.m3u8` : url;
+}
+
+/**
+ * Bunny's auto-generated thumbnail for the video, same pull zone/path pattern as the HLS files.
+ * Falls back to the bundled placeholder only if the stored URL doesn't match the expected Bunny
+ * "play" format at all (so `videoId` can't be extracted).
+ */
+function toThumbnailUrl(url: string): string {
+  const videoId = extractVideoId(url);
+  return videoId
+    ? `https://${BUNNY_PULL_ZONE_HOST}/${videoId}/thumbnail.jpg`
+    : "/video-coach-fallback.jpg";
 }
 
 /** Maps a video-coach record to what `VideoPlayerModal` needs to render — pre-translated. */
@@ -100,7 +129,8 @@ export function toModalVideo(
 ): VideoModalData {
   return {
     titolo: v.titolo,
-    video: toEmbedUrl(v.video),
+    video: toHlsUrl(v.video),
+    poster: toThumbnailUrl(v.video),
     categoriaLabel: categoriaLabel(categoriaT, v.categoria),
     dateLabel: dayLabel(dayLabels, v.data, locale),
   };
