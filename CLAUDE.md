@@ -74,9 +74,11 @@ preview domain — update these when the real domain is known.
   `StrapiError` carries an HTTP `status`.
 - **`auth.tsx`** — `AuthProvider` (mounted in `__root.tsx`) stores `{ jwt, user }` in `localStorage`
   key `profoot_auth`, checks the JWT `exp` claim client-side, and best-effort revalidates with
-  `strapiMe`. `useRequireAuth()` redirects to `/login` when unauthenticated.
-  **Temporary dev backdoor:** `admin@test.com` / `admin` → fake JWT `"12345678"`; remove once the
-  Strapi backoffice is live.
+  `strapiMe`. `useRequireAuth()` redirects to `/login` when unauthenticated. The dev backdoor
+  (`admin@test.com` / `admin` → fake JWT) has been removed; login always goes through real Strapi
+  auth now. For manual testing, use the standard test athlete account: current credentials are in
+  `profoot-lab-backend/bruno/Auth/Login (atleta1).bru` and saved in Claude's memory
+  (`test-user-credentials`) — only valid against a local/dev Strapi instance seeded with that user.
 - **`i18n.tsx`** — hand-rolled i18n (no library). A single large typed `dict` object, namespaced;
   `useT("namespace")` returns the string bag for the active language. `it` (default) and `en`,
   persisted in `localStorage` key `atleta_lang`. **All UI copy for every screen currently lives
