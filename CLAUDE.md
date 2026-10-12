@@ -52,7 +52,7 @@ adding entries to `minimumReleaseAgeExcludes`.
 | `/training` | `training.tsx` | Video of today in evidence + up to 7 past/today videos, full-screen player modal. Real Strapi data (`api::video-coach`, via `GET /api/video-coach/me`). |
 | `/test` | `test.tsx` | Physical-test results + a hand-drawn SVG trend chart. Mock data. |
 | `/body` | `body.tsx` | Anatomical body map (front/back images), injury zones + history. Mock data. |
-| `/diet` | `diet.tsx` | Daily meal plan with macros. Mock data. |
+| `/diet` | `diet.tsx` | Current meal plan (`api::piano-alimentare`, via `GET /api/piano-alimentare/me`); kcal/macro totals summed from the meals (`src/lib/piano-alimentare.ts`). Real data. |
 | `/matches` | `matches.tsx` | Match calendar, next match highlighted. Mock data. |
 | `/mental` | `mental.tsx` | "Mental coach" — work-in-progress placeholder (module preview cards, no real data). |
 | `/highlights` | `highlights.tsx` | Video-clip gallery. Mock data. |
