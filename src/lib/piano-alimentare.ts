@@ -4,20 +4,55 @@
  *
  * Kcal and macro totals are never stored in Strapi: they are always the sum of the plan's meals.
  */
-import type { PastoTipo, StrapiPasto, StrapiPianoAlimentare } from "@/lib/strapi";
-import { todayISO } from "@/lib/video-coach";
+import type { GiornoSettimana, PastoTipo, StrapiPasto, StrapiPianoAlimentare } from "@/lib/strapi";
+
+/** How many days the diet screen shows: today + the following six. */
+export const DAYS_AHEAD = 7;
+
+/** `Date.getDay()` index (0 = Sunday) → weekday key of `dieta.giorni-settimana`. */
+const GIORNO_BY_DAY: GiornoSettimana[] = ["dom", "lun", "mar", "mer", "gio", "ven", "sab"];
+
+/** Local calendar date as YYYY-MM-DD — `validoDal`/`validoAl` are date-only fields, no time/UTC. */
+function toISODate(date: Date): string {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
+/** Today (at local midnight) followed by the next `DAYS_AHEAD - 1` days. */
+export function upcomingDays(from: Date = new Date()): Date[] {
+  return Array.from(
+    { length: DAYS_AHEAD },
+    (_, i) => new Date(from.getFullYear(), from.getMonth(), from.getDate() + i),
+  );
+}
 
 /**
- * Plan in force today: the most recent one with `validoDal <= today` and `validoAl` unset or
- * `>= today`. Sorts by `validoDal` itself rather than trusting the API ordering.
+ * Plan in force on `date`: the most recent one with `validoDal <= date` and `validoAl` unset or
+ * `>= date`. Sorts by `validoDal` itself rather than trusting the API ordering.
  */
-export function currentPiano(list: StrapiPianoAlimentare[]): StrapiPianoAlimentare | null {
-  const today = todayISO();
+export function pianoForDate(
+  list: StrapiPianoAlimentare[],
+  date: Date,
+): StrapiPianoAlimentare | null {
+  const day = toISODate(date);
   return (
     [...list]
       .sort((a, b) => b.validoDal.localeCompare(a.validoDal))
-      .find((p) => p.validoDal <= today && (!p.validoAl || p.validoAl >= today)) ?? null
+      .find((p) => p.validoDal <= day && (!p.validoAl || p.validoAl >= day)) ?? null
   );
+}
+
+/**
+ * Meals of the template week that fall on `date`'s weekday, in chronological order. A meal with no
+ * `giorni` set applies to every day.
+ */
+export function pastiForDate(piano: StrapiPianoAlimentare, date: Date): StrapiPasto[] {
+  const giorno = GIORNO_BY_DAY[date.getDay()];
+  return (piano.pasti ?? [])
+    .filter((p) => !p.giorni || p.giorni[giorno])
+    .sort((a, b) => a.orario.localeCompare(b.orario));
 }
 
 /** "07:30:00.000" → "07:30". */
@@ -31,11 +66,6 @@ export function formatOrario(orario: string): string {
  */
 export function formatKcal(kcal: number, locale: string): string {
   return kcal.toLocaleString(locale, { useGrouping: "always" } as Intl.NumberFormatOptions);
-}
-
-/** Plan meals in chronological order. */
-export function sortedPasti(piano: StrapiPianoAlimentare): StrapiPasto[] {
-  return [...(piano.pasti ?? [])].sort((a, b) => a.orario.localeCompare(b.orario));
 }
 
 export interface PianoTotals {

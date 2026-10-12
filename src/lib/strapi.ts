@@ -230,6 +230,12 @@ export function strapiVideoCoach(token: string) {
 
 export type PastoTipo = "colazione" | "spuntino" | "pranzo" | "pre_allenamento" | "cena";
 
+/** Weekday key of the `dieta.giorni-settimana` component. */
+export type GiornoSettimana = "lun" | "mar" | "mer" | "gio" | "ven" | "sab" | "dom";
+
+/** `dieta.giorni-settimana` component: on which weekdays a meal of the template week repeats. */
+export type StrapiGiorniSettimana = Record<GiornoSettimana, boolean>;
+
 /** Repeatable `dieta.pasto` component of a meal plan. */
 export interface StrapiPasto {
   id: number;
@@ -241,6 +247,8 @@ export interface StrapiPasto {
   carboidratiG: number | null;
   proteineG: number | null;
   grassiG: number | null;
+  /** Weekdays the meal repeats on; `null` = every day. */
+  giorni: StrapiGiorniSettimana | null;
 }
 
 export interface StrapiPianoAlimentare {
@@ -254,7 +262,8 @@ export interface StrapiPianoAlimentare {
 
 /**
  * GET /api/piano-alimentare/me — every meal plan of the athlete linked to the current user (meals
- * populated), most recent `validoDal` first. Picking the current one is up to the client.
+ * and their weekdays populated), most recent `validoDal` first. Picking the plan in force on a given
+ * day is up to the client.
  */
 export function strapiPianoAlimentare(token: string) {
   return request<{ data: StrapiPianoAlimentare[] }>("/api/piano-alimentare/me", {
