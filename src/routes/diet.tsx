@@ -1,7 +1,20 @@
+import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { Loader2, Salad } from "lucide-react";
 import { AppShell, Card } from "@/components/AppShell";
+import { useAuth } from "@/lib/auth";
 import { useLang, useT } from "@/lib/i18n";
+import {
+  TIPO_KEY,
+  currentPiano,
+  formatOrario,
+  macroEnergyShares,
+  nextPastoIndex,
+  pianoTotals,
+  sortedPasti,
+} from "@/lib/piano-alimentare";
 import { absoluteUrl } from "@/lib/site";
+import { strapiPianoAlimentare } from "@/lib/strapi";
 
 export const Route = createFileRoute("/diet")({
   component: DietPage,
@@ -26,101 +39,98 @@ export const Route = createFileRoute("/diet")({
   }),
 });
 
-type MealKey = "breakfast" | "snack" | "lunch" | "pre" | "dinner";
-type DishKey = "dish1" | "dish2" | "dish3" | "dish4" | "dish5";
-
-type Meal = {
-  time: string;
-  nameKey: MealKey;
-  dishKey: DishKey;
-  kcal: number;
-  macros: { c: number; p: number; f: number };
-  active?: boolean;
-};
-
-const meals: Meal[] = [
-  {
-    time: "07:30",
-    nameKey: "breakfast",
-    dishKey: "dish1",
-    kcal: 520,
-    macros: { c: 65, p: 20, f: 12 },
-    active: true,
-  },
-  { time: "10:30", nameKey: "snack", dishKey: "dish2", kcal: 280, macros: { c: 22, p: 18, f: 12 } },
-  { time: "13:00", nameKey: "lunch", dishKey: "dish3", kcal: 720, macros: { c: 80, p: 35, f: 18 } },
-  { time: "16:30", nameKey: "pre", dishKey: "dish4", kcal: 340, macros: { c: 55, p: 8, f: 10 } },
-  {
-    time: "20:30",
-    nameKey: "dinner",
-    dishKey: "dish5",
-    kcal: 590,
-    macros: { c: 45, p: 48, f: 14 },
-  },
-];
-
-const totalKcal = meals.reduce((a, m) => a + m.kcal, 0);
-
 function DietPage() {
   const t = useT("diet");
   const lang = useLang();
+  const { jwt } = useAuth();
+
+  const { data, isPending, isError } = useQuery({
+    queryKey: ["piano-alimentare", jwt],
+    queryFn: () => strapiPianoAlimentare(jwt as string),
+    enabled: !!jwt,
+  });
+
+  const locale = lang === "it" ? "it-IT" : "en-US";
+  const piano = currentPiano(data?.data ?? []);
+  const pasti = piano ? sortedPasti(piano) : [];
+  const totals = pianoTotals(pasti);
+  const shares = macroEnergyShares(totals);
+  const activeIndex = nextPastoIndex(pasti);
+
   return (
     <AppShell eyebrow={t.eyebrow} title={t.title}>
-      <Card className="mb-5 !p-4">
-        <div className="flex items-end justify-between">
-          <div>
+      {isPending && (
+        <div className="flex justify-center py-10">
+          <Loader2 className="size-5 animate-spin text-muted-foreground" />
+        </div>
+      )}
+
+      {isError && <p className="py-6 text-center text-sm text-muted-foreground">{t.load_error}</p>}
+
+      {!isPending && !isError && pasti.length === 0 && (
+        <Card className="flex flex-col items-center gap-2 !p-6 text-center">
+          <Salad className="size-6 text-muted-foreground" />
+          <p className="text-sm font-medium">{t.empty}</p>
+        </Card>
+      )}
+
+      {pasti.length > 0 && (
+        <>
+          <Card className="mb-5 !p-4">
             <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
               {t.today_need}
             </span>
             <p className="text-display mt-1 text-3xl font-semibold">
-              {totalKcal.toLocaleString(lang === "it" ? "it-IT" : "en-US")}
+              {totals.kcal.toLocaleString(locale)}
               <span className="ml-1 text-sm text-muted-foreground">{t.kcal}</span>
             </p>
-          </div>
-          <div className="text-right text-[10px] uppercase tracking-widest text-muted-foreground">
-            {t.goal}{" "}
-            <span className="text-accent">
-              {(2500).toLocaleString(lang === "it" ? "it-IT" : "en-US")}
-            </span>
-          </div>
-        </div>
-        <div className="mt-4 grid grid-cols-3 gap-2 text-center text-[10px] uppercase tracking-widest text-muted-foreground">
-          <Macro label={t.carbs} value="267g" bar={0.75} />
-          <Macro label={t.protein} value="129g" bar={0.9} />
-          <Macro label={t.fats} value="66g" bar={0.6} />
-        </div>
-      </Card>
+            <div className="mt-4 grid grid-cols-3 gap-2 text-center text-[10px] uppercase tracking-widest text-muted-foreground">
+              <Macro label={t.carbs} value={`${totals.carboidratiG}g`} bar={shares.c} />
+              <Macro label={t.protein} value={`${totals.proteineG}g`} bar={shares.p} />
+              <Macro label={t.fats} value={`${totals.grassiG}g`} bar={shares.f} />
+            </div>
+          </Card>
 
-      <div className="relative space-y-4 before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-px before:bg-border">
-        {meals.map((m) => (
-          <div key={m.time} className="relative pl-8">
-            <span
-              className={`absolute left-0 top-1.5 flex size-6 items-center justify-center rounded-full bg-card ring-1 ${
-                m.active ? "ring-accent" : "ring-border"
-              }`}
-            >
-              <span
-                className={`size-1.5 rounded-full ${m.active ? "bg-accent" : "bg-muted-foreground"}`}
-              />
-            </span>
-            <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
-              {m.time} · {t[m.nameKey]}
-            </p>
-            <Card className="mt-2 !p-3">
-              <div className="flex items-start justify-between gap-3">
-                <p className="text-sm font-semibold">{t[m.dishKey]}</p>
-                <span className="text-display shrink-0 text-sm font-semibold text-accent">
-                  {m.kcal}
-                  <span className="text-[10px] text-muted-foreground"> {t.kcal}</span>
-                </span>
-              </div>
-              <p className="mt-1 text-[11px] text-muted-foreground">
-                {t.m_carb} {m.macros.c}g · {t.m_pro} {m.macros.p}g · {t.m_fat} {m.macros.f}g
-              </p>
-            </Card>
+          {piano?.note && (
+            <Card className="mb-5 !p-4 text-sm text-muted-foreground">{piano.note}</Card>
+          )}
+
+          <div className="relative space-y-4 before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-px before:bg-border">
+            {pasti.map((m, i) => {
+              const active = i === activeIndex;
+              return (
+                <div key={m.id} className="relative pl-8">
+                  <span
+                    className={`absolute left-0 top-1.5 flex size-6 items-center justify-center rounded-full bg-card ring-1 ${
+                      active ? "ring-accent" : "ring-border"
+                    }`}
+                  >
+                    <span
+                      className={`size-1.5 rounded-full ${active ? "bg-accent" : "bg-muted-foreground"}`}
+                    />
+                  </span>
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+                    {formatOrario(m.orario)} · {t[TIPO_KEY[m.tipo]]}
+                  </p>
+                  <Card className="mt-2 !p-3">
+                    <div className="flex items-start justify-between gap-3">
+                      <p className="whitespace-pre-line text-sm font-semibold">{m.descrizione}</p>
+                      <span className="text-display shrink-0 text-sm font-semibold text-accent">
+                        {m.kcal}
+                        <span className="text-[10px] text-muted-foreground"> {t.kcal}</span>
+                      </span>
+                    </div>
+                    <p className="mt-1 text-[11px] text-muted-foreground">
+                      {t.m_carb} {m.carboidratiG ?? 0}g · {t.m_pro} {m.proteineG ?? 0}g · {t.m_fat}{" "}
+                      {m.grassiG ?? 0}g
+                    </p>
+                  </Card>
+                </div>
+              );
+            })}
           </div>
-        ))}
-      </div>
+        </>
+      )}
     </AppShell>
   );
 }
