@@ -25,6 +25,14 @@ export function formatOrario(orario: string): string {
   return orario.slice(0, 5);
 }
 
+/**
+ * Kcal with thousands separator. `it-IT` skips grouping for 4-digit numbers by default ("2450"),
+ * so grouping is forced to always get "2.450" / "2,450".
+ */
+export function formatKcal(kcal: number, locale: string): string {
+  return kcal.toLocaleString(locale, { useGrouping: "always" } as Intl.NumberFormatOptions);
+}
+
 /** Plan meals in chronological order. */
 export function sortedPasti(piano: StrapiPianoAlimentare): StrapiPasto[] {
   return [...(piano.pasti ?? [])].sort((a, b) => a.orario.localeCompare(b.orario));

@@ -7,6 +7,7 @@ import { useLang, useT } from "@/lib/i18n";
 import {
   TIPO_KEY,
   currentPiano,
+  formatKcal,
   formatOrario,
   macroEnergyShares,
   nextPastoIndex,
@@ -81,7 +82,7 @@ function DietPage() {
               {t.today_need}
             </span>
             <p className="text-display mt-1 text-3xl font-semibold">
-              {totals.kcal.toLocaleString(locale)}
+              {formatKcal(totals.kcal, locale)}
               <span className="ml-1 text-sm text-muted-foreground">{t.kcal}</span>
             </p>
             <div className="mt-4 grid grid-cols-3 gap-2 text-center text-[10px] uppercase tracking-widest text-muted-foreground">

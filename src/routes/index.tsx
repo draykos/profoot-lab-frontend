@@ -22,7 +22,7 @@ import {
   strapiVideoCoach,
   type StrapiVideoCoach,
 } from "@/lib/strapi";
-import { currentPiano, pianoTotals } from "@/lib/piano-alimentare";
+import { currentPiano, formatKcal, pianoTotals } from "@/lib/piano-alimentare";
 import { pickHomeInjury, zoneLabel, STATO_TO_SEVERITY, type Severity } from "@/lib/infortuni";
 import {
   categoriaLabel,
@@ -131,7 +131,7 @@ function HomePage() {
   const pianoPasti = currentPiano(pianoData?.data ?? [])?.pasti ?? [];
   const qaDietSub =
     pianoPasti.length > 0
-      ? `${pianoPasti.length} ${t.qa_diet_meals} • ${pianoTotals(pianoPasti).kcal.toLocaleString(locale)} kcal`
+      ? `${pianoPasti.length} ${t.qa_diet_meals} • ${formatKcal(pianoTotals(pianoPasti).kcal, locale)} kcal`
       : t.qa_diet_sub;
 
   const quickAccess = [
