@@ -227,3 +227,38 @@ export interface StrapiVideoCoach {
 export function strapiVideoCoach(token: string) {
   return request<{ data: StrapiVideoCoach[] }>("/api/video-coach/me", { method: "GET", token });
 }
+
+export type PastoTipo = "colazione" | "spuntino" | "pranzo" | "pre_allenamento" | "cena";
+
+/** Repeatable `dieta.pasto` component of a meal plan. */
+export interface StrapiPasto {
+  id: number;
+  /** Strapi `time` field, e.g. "07:30:00.000". */
+  orario: string;
+  tipo: PastoTipo;
+  descrizione: string;
+  kcal: number;
+  carboidratiG: number | null;
+  proteineG: number | null;
+  grassiG: number | null;
+}
+
+export interface StrapiPianoAlimentare {
+  id: number;
+  documentId: string;
+  validoDal: string;
+  validoAl: string | null;
+  note: string | null;
+  pasti: StrapiPasto[] | null;
+}
+
+/**
+ * GET /api/piano-alimentare/me — every meal plan of the athlete linked to the current user (meals
+ * populated), most recent `validoDal` first. Picking the current one is up to the client.
+ */
+export function strapiPianoAlimentare(token: string) {
+  return request<{ data: StrapiPianoAlimentare[] }>("/api/piano-alimentare/me", {
+    method: "GET",
+    token,
+  });
+}

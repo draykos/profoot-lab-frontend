@@ -17,10 +17,12 @@ import { absoluteUrl } from "@/lib/site";
 import { useAuth } from "@/lib/auth";
 import {
   strapiAtleta,
+  strapiPianoAlimentare,
   strapiInfortuni,
   strapiVideoCoach,
   type StrapiVideoCoach,
 } from "@/lib/strapi";
+import { currentPiano, formatKcal, pianoTotals } from "@/lib/piano-alimentare";
 import { pickHomeInjury, zoneLabel, STATO_TO_SEVERITY, type Severity } from "@/lib/infortuni";
 import {
   categoriaLabel,
@@ -88,6 +90,12 @@ function HomePage() {
     enabled: !!jwt,
   });
 
+  const { data: pianoData } = useQuery({
+    queryKey: ["piano-alimentare", jwt],
+    queryFn: () => strapiPianoAlimentare(jwt as string),
+    enabled: !!jwt,
+  });
+
   const atletaNome = atletaData?.data?.nome;
   const greeting = atletaNome ? `${t.hello}, ${atletaNome}` : t.hello;
 
@@ -120,9 +128,15 @@ function HomePage() {
         ? t.qa_body_sub_one
         : `${activeAlertsCount} ${t.qa_body_sub_many}`;
 
+  const pianoPasti = currentPiano(pianoData?.data ?? [])?.pasti ?? [];
+  const qaDietSub =
+    pianoPasti.length > 0
+      ? `${pianoPasti.length} ${t.qa_diet_meals} • ${formatKcal(pianoTotals(pianoPasti).kcal, locale)} kcal`
+      : t.qa_diet_sub;
+
   const quickAccess = [
     { to: "/training", label: t.qa_train, icon: Dumbbell, sub: t.qa_train_sub },
-    { to: "/diet", label: t.qa_diet, icon: Salad, sub: t.qa_diet_sub },
+    { to: "/diet", label: t.qa_diet, icon: Salad, sub: qaDietSub },
     { to: "/test", label: t.qa_tests, icon: Trophy, sub: t.qa_tests_sub },
     { to: "/body", label: t.qa_body, icon: HeartPulse, sub: qaBodySub },
     { to: "/matches", label: t.qa_matches, icon: CalendarDays, sub: t.qa_matches_sub },
