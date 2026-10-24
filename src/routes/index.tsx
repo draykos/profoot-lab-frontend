@@ -215,30 +215,29 @@ function HomePage() {
         </button>
       )}
 
-      {/* Next match */}
-      <Card className="mb-4 flex items-center justify-between !p-4">
-        <div>
-          <span className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
-            {t.next_match}
+      {/* Next match — the whole card links to /matches, like the other home slots */}
+      <Link to="/matches" className="mb-4 block">
+        <Card className="flex items-center justify-between !p-4 transition hover:-translate-y-0.5 hover:ring-accent/40">
+          <div>
+            <span className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+              {t.next_match}
+            </span>
+            {nextMatch ? (
+              <>
+                <p className="text-display mt-1 text-lg font-semibold">
+                  {nextMatch.squadraCasa ?? "—"} {t.match_vs} {nextMatch.squadraTrasferta ?? "—"}
+                </p>
+                <p className="text-xs text-muted-foreground">{nextMatchWhen}</p>
+              </>
+            ) : (
+              <p className="mt-1 text-sm text-muted-foreground">{t.match_none}</p>
+            )}
+          </div>
+          <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground">
+            <ArrowRight className="size-4" />
           </span>
-          {nextMatch ? (
-            <>
-              <p className="text-display mt-1 text-lg font-semibold">
-                {nextMatch.squadraCasa ?? "—"} {t.match_vs} {nextMatch.squadraTrasferta ?? "—"}
-              </p>
-              <p className="text-xs text-muted-foreground">{nextMatchWhen}</p>
-            </>
-          ) : (
-            <p className="mt-1 text-sm text-muted-foreground">{t.match_none}</p>
-          )}
-        </div>
-        <Link
-          to="/matches"
-          className="flex size-10 items-center justify-center rounded-full bg-accent text-accent-foreground"
-        >
-          <ArrowRight className="size-4" />
-        </Link>
-      </Card>
+        </Card>
+      </Link>
 
       {/* Body alert strip — oldest attivo, else oldest in_recupero, else oldest risolto, else hidden */}
       {homeInjury && homeInjuryStyle && (
