@@ -1,7 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { MapPin, Clock } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { CalendarDays, Clock, Loader2, MapPin } from "lucide-react";
 import { AppShell, Card } from "@/components/AppShell";
+import { useAuth } from "@/lib/auth";
 import { useLang, useT } from "@/lib/i18n";
+import { COMPETIZIONE_KEY, formatMatchDate, formatMatchTime, upcomingPartite } from "@/lib/partite";
+import { strapiCalendarioPartite, type StrapiPartita } from "@/lib/strapi";
 import { absoluteUrl } from "@/lib/site";
 
 export const Route = createFileRoute("/matches")({
@@ -27,117 +31,104 @@ export const Route = createFileRoute("/matches")({
   }),
 });
 
-type Match = {
-  home: string;
-  away: string;
-  dateIt: string;
-  dateEn: string;
-  time: string;
-  venue: string;
-  compIt: string;
-  compEn: string;
-};
-
-const upcoming: Match[] = [
-  {
-    home: "Milano FC",
-    away: "Torino",
-    dateIt: "20 mar",
-    dateEn: "Mar 20",
-    time: "20:45",
-    venue: "San Siro",
-    compIt: "Serie A",
-    compEn: "Serie A",
-  },
-  {
-    home: "Napoli",
-    away: "Milano FC",
-    dateIt: "24 mar",
-    dateEn: "Mar 24",
-    time: "18:00",
-    venue: "Maradona",
-    compIt: "Serie A",
-    compEn: "Serie A",
-  },
-  {
-    home: "Milano FC",
-    away: "PSG",
-    dateIt: "02 apr",
-    dateEn: "Apr 2",
-    time: "21:00",
-    venue: "San Siro",
-    compIt: "Champions",
-    compEn: "Champions",
-  },
-  {
-    home: "Bologna",
-    away: "Milano FC",
-    dateIt: "07 apr",
-    dateEn: "Apr 7",
-    time: "15:00",
-    venue: "Dall'Ara",
-    compIt: "Serie A",
-    compEn: "Serie A",
-  },
-];
-
 function MatchesPage() {
   const t = useT("matches");
   const lang = useLang();
-  const [next, ...rest] = upcoming;
-  const d = (m: Match) => (lang === "it" ? m.dateIt : m.dateEn);
-  const c = (m: Match) => (lang === "it" ? m.compIt : m.compEn);
+  const { jwt } = useAuth();
+  const locale = lang === "it" ? "it-IT" : "en-US";
+  const tRecord = t as unknown as Record<string, string>;
+
+  const { data, isPending, isError } = useQuery({
+    queryKey: ["calendario-partite", jwt],
+    queryFn: () => strapiCalendarioPartite(jwt as string),
+    enabled: !!jwt,
+  });
+
+  const [next, ...rest] = upcomingPartite(data?.data ?? []);
+  const c = (m: StrapiPartita) =>
+    m.competizione ? tRecord[COMPETIZIONE_KEY[m.competizione]] : null;
 
   return (
     <AppShell eyebrow={t.eyebrow} title={t.title}>
-      <Card className="mb-5 !p-5 bg-gradient-to-br from-accent to-accent/80 text-accent-foreground ring-0">
-        <span className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-70">
-          {t.next}
-        </span>
-        <div className="mt-3 flex items-center justify-between">
-          <TeamBadge name={next.home} />
-          <div className="text-center">
-            <p className="text-display text-3xl font-semibold">VS</p>
-            <p className="mt-1 text-[10px] font-bold uppercase tracking-widest opacity-70">
-              {c(next)}
-            </p>
-          </div>
-          <TeamBadge name={next.away} />
+      {isPending && (
+        <div className="flex justify-center py-10">
+          <Loader2 className="size-5 animate-spin text-muted-foreground" />
         </div>
-        <div className="mt-5 flex items-center justify-between text-xs font-medium opacity-90">
-          <span className="flex items-center gap-1.5">
-            <Clock className="size-3.5" /> {d(next)} · {next.time}
-          </span>
-          <span className="flex items-center gap-1.5">
-            <MapPin className="size-3.5" /> {next.venue}
-          </span>
-        </div>
-      </Card>
+      )}
 
-      <h3 className="text-display mb-3 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-        {t.scheduled}
-      </h3>
-      <div className="space-y-3">
-        {rest.map((m, i) => (
-          <Card key={i} className="!p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-accent">
-                  {c(m)}
-                </p>
-                <p className="mt-1 text-sm font-semibold">
-                  {m.home} <span className="text-muted-foreground">{t.vs}</span> {m.away}
-                </p>
-                <p className="mt-1 text-[11px] text-muted-foreground">{m.venue}</p>
-              </div>
-              <div className="text-right">
-                <p className="text-display text-lg font-semibold">{d(m)}</p>
-                <p className="text-[11px] text-muted-foreground">{m.time}</p>
-              </div>
+      {isError && <p className="py-6 text-center text-sm text-muted-foreground">{t.load_error}</p>}
+
+      {!isPending && !isError && !next && (
+        <Card className="flex flex-col items-center gap-2 !p-6 text-center">
+          <CalendarDays className="size-6 text-muted-foreground" />
+          <p className="text-sm font-medium">{t.empty}</p>
+        </Card>
+      )}
+
+      {next && (
+        <Card className="mb-5 !p-5 bg-gradient-to-br from-accent to-accent/80 text-accent-foreground ring-0">
+          <span className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-70">
+            {t.next}
+          </span>
+          <div className="mt-3 flex items-center justify-between">
+            <TeamBadge name={next.squadraCasa ?? "—"} />
+            <div className="text-center">
+              <p className="text-display text-3xl font-semibold">VS</p>
+              <p className="mt-1 text-[10px] font-bold uppercase tracking-widest opacity-70">
+                {c(next)}
+              </p>
             </div>
-          </Card>
-        ))}
-      </div>
+            <TeamBadge name={next.squadraTrasferta ?? "—"} />
+          </div>
+          <div className="mt-5 flex items-center justify-between text-xs font-medium opacity-90">
+            <span className="flex items-center gap-1.5">
+              <Clock className="size-3.5" /> {formatMatchDate(next.dataOra, locale)} ·{" "}
+              {formatMatchTime(next.dataOra, locale)}
+            </span>
+            {next.stadio && (
+              <span className="flex items-center gap-1.5">
+                <MapPin className="size-3.5" /> {next.stadio}
+              </span>
+            )}
+          </div>
+        </Card>
+      )}
+
+      {rest.length > 0 && (
+        <>
+          <h3 className="text-display mb-3 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            {t.scheduled}
+          </h3>
+          <div className="space-y-3">
+            {rest.map((m) => (
+              <Card key={m.id} className="!p-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-accent">
+                      {c(m)}
+                    </p>
+                    <p className="mt-1 text-sm font-semibold">
+                      {m.squadraCasa ?? "—"} <span className="text-muted-foreground">{t.vs}</span>{" "}
+                      {m.squadraTrasferta ?? "—"}
+                    </p>
+                    {m.stadio && (
+                      <p className="mt-1 text-[11px] text-muted-foreground">{m.stadio}</p>
+                    )}
+                  </div>
+                  <div className="text-right">
+                    <p className="text-display text-lg font-semibold">
+                      {formatMatchDate(m.dataOra, locale)}
+                    </p>
+                    <p className="text-[11px] text-muted-foreground">
+                      {formatMatchTime(m.dataOra, locale)}
+                    </p>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </>
+      )}
     </AppShell>
   );
 }

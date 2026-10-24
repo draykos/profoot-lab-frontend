@@ -271,3 +271,33 @@ export function strapiPianoAlimentare(token: string) {
     token,
   });
 }
+
+export type PartitaCompetizione = "serie_a" | "champions" | "coppa_italia" | "amichevole";
+
+export type PartitaStato = "in_programma" | "giocata" | "rinviata";
+
+/** Repeatable `calendario.partita` component of the athlete's match calendar. */
+export interface StrapiPartita {
+  id: number;
+  squadraCasa: string | null;
+  squadraTrasferta: string | null;
+  /** ISO datetime (UTC), e.g. "2026-11-01T14:30:00.000Z". */
+  dataOra: string;
+  stadio: string | null;
+  competizione: PartitaCompetizione | null;
+  stato: PartitaStato | null;
+  golCasa: number | null;
+  golTrasferta: number | null;
+}
+
+/**
+ * GET /api/calendario-partite/me — every match in the calendar of the athlete linked to the
+ * current user (past ones included), sorted by `dataOra` ascending. Empty when the athlete has no
+ * calendar yet.
+ */
+export function strapiCalendarioPartite(token: string) {
+  return request<{ data: StrapiPartita[] }>("/api/calendario-partite/me", {
+    method: "GET",
+    token,
+  });
+}
