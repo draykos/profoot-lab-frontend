@@ -217,6 +217,11 @@ export interface StrapiVideoCoach {
   durataMinuti: number | null;
   data: string;
   video: string;
+  /**
+   * Bunny thumbnail URL resolved server-side via the Bunny Stream API (not a stored attribute);
+   * `null` when the backend couldn't resolve it.
+   */
+  thumbnail: string | null;
 }
 
 /**

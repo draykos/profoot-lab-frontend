@@ -12,6 +12,7 @@ import {
   dayLabel,
   featuredVideo,
   toModalVideo,
+  onThumbnailError,
   videoThumbnail,
   visibleVideos,
 } from "@/lib/video-coach";
@@ -96,6 +97,7 @@ function TrainingPage() {
             <div className="relative aspect-video w-full">
               <img
                 src={videoThumbnail(hero)}
+                onError={onThumbnailError}
                 alt={hero.titolo}
                 className="h-full w-full object-cover"
               />
@@ -156,6 +158,7 @@ function TrainingPage() {
                       <div className="relative size-20 shrink-0 overflow-hidden rounded-xl bg-secondary">
                         <img
                           src={videoThumbnail(v)}
+                          onError={onThumbnailError}
                           alt=""
                           loading="lazy"
                           className="size-full object-cover"
