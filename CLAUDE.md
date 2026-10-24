@@ -53,7 +53,7 @@ adding entries to `minimumReleaseAgeExcludes`.
 | `/test` | `test.tsx` | Physical-test results + a hand-drawn SVG trend chart. Mock data. |
 | `/body` | `body.tsx` | Anatomical body map (front/back images), injury zones + history. Mock data. |
 | `/diet` | `diet.tsx` | Meal plan for today + the next 6 days (day strip, prev/next links, swipe). Plans are a repeating template week: meals filtered by weekday (`giorni`), kcal/macro totals summed from them (`src/lib/piano-alimentare.ts`). Real data (`GET /api/piano-alimentare/me`). |
-| `/matches` | `matches.tsx` | Match calendar: upcoming matches (not `giocata`, kick-off still ahead), first one highlighted, dates as "02 apr" (`src/lib/partite.ts`). Real data (`GET /api/calendario-partite/me`). |
+| `/matches` | `matches.tsx` | Match calendar: upcoming matches (kick-off still ahead; no stored status, past = played), first one highlighted, dates as "02 apr" (`src/lib/partite.ts`). Real data (`GET /api/calendario-partite/me`). |
 | `/mental` | `mental.tsx` | "Mental coach" — work-in-progress placeholder (module preview cards, no real data). |
 | `/highlights` | `highlights.tsx` | Video-clip gallery. Mock data. |
 | `/profile` | `profile.tsx` | Player bio/measurements (mock) + language switch + logout (real). |

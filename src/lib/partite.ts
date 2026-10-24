@@ -5,12 +5,13 @@
 import type { PartitaCompetizione, StrapiPartita } from "@/lib/strapi";
 
 /**
- * Matches still to come: not yet played and kicking off at or after `now`, in chronological order.
- * Sorts by `dataOra` itself rather than trusting the API ordering.
+ * Matches still to come — kicking off at or after `now` — in chronological order. There is no
+ * stored status: a match is played once its `dataOra` has passed. Sorts by `dataOra` itself rather
+ * than trusting the API ordering.
  */
 export function upcomingPartite(list: StrapiPartita[], now: Date = new Date()): StrapiPartita[] {
   return list
-    .filter((p) => p.stato !== "giocata" && new Date(p.dataOra).getTime() >= now.getTime())
+    .filter((p) => new Date(p.dataOra).getTime() >= now.getTime())
     .sort((a, b) => a.dataOra.localeCompare(b.dataOra));
 }
 
