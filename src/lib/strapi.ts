@@ -274,8 +274,6 @@ export function strapiPianoAlimentare(token: string) {
 
 export type PartitaCompetizione = "serie_a" | "champions" | "coppa_italia" | "amichevole";
 
-export type PartitaStato = "in_programma" | "giocata" | "rinviata";
-
 /** Repeatable `calendario.partita` component of the athlete's match calendar. */
 export interface StrapiPartita {
   id: number;
@@ -285,7 +283,6 @@ export interface StrapiPartita {
   dataOra: string;
   stadio: string | null;
   competizione: PartitaCompetizione | null;
-  stato: PartitaStato | null;
   golCasa: number | null;
   golTrasferta: number | null;
 }
