@@ -209,9 +209,9 @@ export function strapiMediaUrl(media: StrapiMedia | null | undefined): string | 
 
 export type VideoCoachCategoria = "pre_partita" | "focus" | "sonno" | "stress" | "recupero";
 
+/** Repeatable `coach.video` component of the athlete's video coach (one entry per athlete). */
 export interface StrapiVideoCoach {
   id: number;
-  documentId: string;
   titolo: string;
   categoria: VideoCoachCategoria | null;
   durataMinuti: number | null;
