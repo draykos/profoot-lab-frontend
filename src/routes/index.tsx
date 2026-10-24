@@ -31,6 +31,7 @@ import {
   dayLabel,
   featuredVideo,
   toModalVideo,
+  onThumbnailError,
   videoThumbnail,
 } from "@/lib/video-coach";
 import { VideoPlayerModal } from "@/components/VideoPlayerModal";
@@ -182,6 +183,7 @@ function HomePage() {
             <div className="relative aspect-video w-full">
               <img
                 src={videoThumbnail(heroVideo)}
+                onError={onThumbnailError}
                 alt={heroVideo.titolo}
                 className="h-full w-full object-cover"
               />

@@ -34,13 +34,26 @@ export function featuredVideo(list: StrapiVideoCoach[]): StrapiVideoCoach | null
   return visibleVideos(list)[0] ?? null;
 }
 
+/** Bundled placeholder shown when a video's thumbnail is missing or fails to load. */
+export const VIDEO_THUMBNAIL_FALLBACK = "/video-coach-fallback.jpg";
+
 /**
- * Cover image, sourced from Bunny's auto-generated video thumbnail rather than the Strapi
- * `copertina` field (ignored entirely — editorial control over the thumbnail, if ever needed,
- * happens by uploading a custom one in the Bunny dashboard for that video, not in Strapi).
+ * Cover image, sourced from Bunny's video thumbnail rather than the Strapi `copertina` field
+ * (ignored entirely — editorial control over the thumbnail, if ever needed, happens by uploading
+ * a custom one in the Bunny dashboard for that video, not in Strapi). Prefers the URL resolved by
+ * the backend, since a custom thumbnail gets a new file name; the guessed default path is only a
+ * best effort for when the backend couldn't resolve it.
  */
 export function videoThumbnail(v: StrapiVideoCoach): string {
-  return toThumbnailUrl(v.video);
+  return v.thumbnail ?? toThumbnailUrl(v.video);
+}
+
+/** `onError` for thumbnail `<img>`s: swaps in the placeholder once, so a missing file never shows a broken image. */
+export function onThumbnailError(e: React.SyntheticEvent<HTMLImageElement>): void {
+  const img = e.currentTarget;
+  if (!img.src.endsWith(VIDEO_THUMBNAIL_FALLBACK)) {
+    img.src = VIDEO_THUMBNAIL_FALLBACK;
+  }
 }
 
 const CATEGORIA_KEY: Record<VideoCoachCategoria, string> = {
@@ -117,7 +130,7 @@ function toThumbnailUrl(url: string): string {
   const videoId = extractVideoId(url);
   return videoId
     ? `https://${BUNNY_PULL_ZONE_HOST}/${videoId}/thumbnail.jpg`
-    : "/video-coach-fallback.jpg";
+    : VIDEO_THUMBNAIL_FALLBACK;
 }
 
 /** Maps a video-coach record to what `VideoPlayerModal` needs to render — pre-translated. */
@@ -130,7 +143,7 @@ export function toModalVideo(
   return {
     titolo: v.titolo,
     video: toHlsUrl(v.video),
-    poster: toThumbnailUrl(v.video),
+    poster: videoThumbnail(v),
     categoriaLabel: categoriaLabel(categoriaT, v.categoria),
     dateLabel: dayLabel(dayLabels, v.data, locale),
   };
