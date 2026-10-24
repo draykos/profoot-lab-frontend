@@ -17,12 +17,14 @@ import { absoluteUrl } from "@/lib/site";
 import { useAuth } from "@/lib/auth";
 import {
   strapiAtleta,
+  strapiCalendarioPartite,
   strapiPianoAlimentare,
   strapiInfortuni,
   strapiVideoCoach,
   type StrapiVideoCoach,
 } from "@/lib/strapi";
 import { formatKcal, pastiForDate, pianoForDate, pianoTotals } from "@/lib/piano-alimentare";
+import { formatMatchTime, matchDayLabel, upcomingPartite } from "@/lib/partite";
 import { pickHomeInjury, zoneLabel, STATO_TO_SEVERITY, type Severity } from "@/lib/infortuni";
 import {
   categoriaLabel,
@@ -96,6 +98,12 @@ function HomePage() {
     enabled: !!jwt,
   });
 
+  const { data: partiteData } = useQuery({
+    queryKey: ["calendario-partite", jwt],
+    queryFn: () => strapiCalendarioPartite(jwt as string),
+    enabled: !!jwt,
+  });
+
   const atletaNome = atletaData?.data?.nome;
   const greeting = atletaNome ? `${t.hello}, ${atletaNome}` : t.hello;
 
@@ -135,6 +143,22 @@ function HomePage() {
     pianoPasti.length > 0
       ? `${pianoPasti.length} ${t.qa_diet_meals} • ${formatKcal(pianoTotals(pianoPasti).kcal, locale)} kcal`
       : t.qa_diet_sub;
+
+  const nextMatch = upcomingPartite(partiteData?.data ?? [], now)[0] ?? null;
+  const nextMatchWhen = nextMatch
+    ? [
+        matchDayLabel(
+          { today: t.match_today, tomorrow: t.match_tomorrow },
+          nextMatch.dataOra,
+          locale,
+          now,
+        ),
+        formatMatchTime(nextMatch.dataOra, locale),
+        nextMatch.stadio,
+      ]
+        .filter(Boolean)
+        .join(" • ")
+    : null;
 
   const quickAccess = [
     { to: "/training", label: t.qa_train, icon: Dumbbell, sub: t.qa_train_sub },
@@ -195,8 +219,16 @@ function HomePage() {
           <span className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
             {t.next_match}
           </span>
-          <p className="text-display mt-1 text-lg font-semibold">{t.match_teams}</p>
-          <p className="text-xs text-muted-foreground">{t.match_when}</p>
+          {nextMatch ? (
+            <>
+              <p className="text-display mt-1 text-lg font-semibold">
+                {nextMatch.squadraCasa ?? "—"} {t.match_vs} {nextMatch.squadraTrasferta ?? "—"}
+              </p>
+              <p className="text-xs text-muted-foreground">{nextMatchWhen}</p>
+            </>
+          ) : (
+            <p className="mt-1 text-sm text-muted-foreground">{t.match_none}</p>
+          )}
         </div>
         <Link
           to="/matches"
