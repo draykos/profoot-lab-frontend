@@ -303,3 +303,35 @@ export function strapiCalendarioPartite(token: string) {
     token,
   });
 }
+
+export type TipoTestUnita = "cm" | "s" | "m";
+/** `giu` = a lower value is better (e.g. sprints). */
+export type TipoTestDirezione = "su" | "giu";
+
+/** `api::tipo-test.tipo-test` catalog entry, as populated on each physical test. */
+export interface StrapiTipoTest {
+  id: number;
+  documentId: string;
+  nome: string;
+  codice: string;
+  unita: TipoTestUnita;
+  direzioneMigliora: TipoTestDirezione;
+}
+
+export interface StrapiTestFisico {
+  id: number;
+  documentId: string;
+  valore: number;
+  /** Strapi `date`, e.g. "2026-11-21". */
+  data: string;
+  note: string | null;
+  tipoTest: StrapiTipoTest | null;
+}
+
+/**
+ * GET /api/test-fisico/me — every physical test measurement of the athlete linked to the current
+ * user, oldest `data` first, each with its `tipoTest` populated. Private: self-scoped only.
+ */
+export function strapiTestFisici(token: string) {
+  return request<{ data: StrapiTestFisico[] }>("/api/test-fisico/me", { method: "GET", token });
+}
