@@ -2,7 +2,8 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import { Loader2 } from "lucide-react";
 import stadium from "@/assets/stadium-tunnel.jpg";
-import { LanguageToggle, useT } from "@/lib/i18n";
+import { LanguageToggle } from "@/components/LanguageToggle";
+import { useT } from "@/lib/i18n";
 import { useAuth } from "@/lib/auth";
 import { StrapiError } from "@/lib/strapi";
 

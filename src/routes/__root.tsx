@@ -6,6 +6,7 @@ import {
   useRouter,
   HeadContent,
   Scripts,
+  type ErrorComponentProps,
 } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
@@ -18,8 +19,8 @@ import "@fontsource/inter/500.css";
 import "@fontsource/inter/600.css";
 
 import appCss from "../styles.css?url";
-import { LanguageProvider } from "../lib/i18n";
-import { AuthProvider } from "../lib/auth";
+import { LanguageProvider } from "../components/LanguageProvider";
+import { AuthProvider } from "../components/AuthProvider";
 import { PwaUpdater } from "../lib/pwa";
 import { PwaInstallBanner } from "../lib/pwaInstall";
 import { StaleForegroundReload } from "../lib/staleForegroundReload";
@@ -46,7 +47,7 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+function ErrorComponent({ error, reset }: ErrorComponentProps) {
   console.error(error);
   const router = useRouter();
 
