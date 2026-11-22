@@ -69,7 +69,8 @@ layout. Route conventions are documented in `src/routes/README.md` (do not intro
   (`/api/auth/local`), `strapiForgotPassword`, `strapiResetPassword`, `strapiMe`
   (`/api/users/me`). Base URL from `VITE_STRAPI_URL` (`.env.example`), fallback `https://strapi.test`.
   `StrapiError` carries an HTTP `status`.
-- **`auth.tsx`** — `AuthProvider` (mounted in `__root.tsx`) stores `{ jwt, user }` in `localStorage`
+- **`auth.tsx`** — `AuthContext` + hooks (`useAuth`, `useRequireAuth`); the provider is
+  `components/AuthProvider.tsx` (mounted in `__root.tsx`), which stores `{ jwt, user }` in `localStorage`
   key `profoot_auth`, checks the JWT `exp` claim client-side, and best-effort revalidates with
   `strapiMe`. `useRequireAuth()` redirects to `/login` when unauthenticated. The dev backdoor
   (`admin@test.com` / `admin` → fake JWT) has been removed; login always goes through real Strapi
@@ -79,7 +80,8 @@ layout. Route conventions are documented in `src/routes/README.md` (do not intro
 - **`i18n.tsx`** — hand-rolled i18n (no library). A single large typed `dict` object, namespaced;
   `useT("namespace")` returns the string bag for the active language. `it` (default) and `en`,
   persisted in `localStorage` key `atleta_lang`. **All UI copy for every screen currently lives
-  here**, alongside a lot of the mock content. `LanguageToggle` / `LanguageProvider` also exported.
+  here**, alongside a lot of the mock content. `LanguageProvider` and `LanguageToggle` live in
+  `components/` (lib files export no components, per the `react-refresh` lint rule).
 - **`error-capture.ts`, `error-page.ts`** — support the custom SSR error handling in
   `src/server.ts` / `src/start.ts`.
 

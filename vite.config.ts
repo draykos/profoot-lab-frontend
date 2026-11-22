@@ -3,7 +3,7 @@ import { fileURLToPath } from "node:url";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import tailwindcss from "@tailwindcss/vite";
 import viteReact from "@vitejs/plugin-react";
-import { defineConfig } from "vite";
+import { defineConfig, type UserConfig } from "vite";
 import { VitePWA, type VitePWAOptions } from "vite-plugin-pwa";
 import tsConfigPaths from "vite-tsconfig-paths";
 
@@ -11,7 +11,7 @@ const { version: appVersion } = JSON.parse(
   readFileSync(fileURLToPath(new URL("./package.json", import.meta.url)), "utf-8"),
 ) as { version: string };
 
-export default defineConfig(async ({ command, mode }) => {
+export default defineConfig(async ({ command, mode }): Promise<UserConfig> => {
   // `vite build --mode development` (our `build:dev` script): force a dev-flavored
   // React runtime (extra warnings, unminified names) inside an otherwise production build.
   const isDevBuild = command === "build" && mode === "development";
@@ -25,7 +25,9 @@ export default defineConfig(async ({ command, mode }) => {
           environments: {
             client: { define: { "process.env.NODE_ENV": JSON.stringify("development") } },
           },
-          esbuild: { keepNames: true },
+          // Vite 8 no longer transforms/minifies with esbuild, so the old `esbuild.keepNames` was
+          // ignored: keep function/class names through Rolldown's output option instead.
+          build: { rolldownOptions: { output: { keepNames: true } } },
         }
       : {}),
     css: { transformer: "lightningcss" },

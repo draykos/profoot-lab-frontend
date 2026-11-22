@@ -1,17 +1,11 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-  type ReactNode,
-} from "react";
-import { safeStorage } from "./safeStorage";
+import { createContext, useContext } from "react";
+
+// LanguageProvider and LanguageToggle live in src/components/ so that this module only exports
+// the dictionary, the context and the hooks (no components).
 
 export type Lang = "it" | "en";
 
-const STORAGE_KEY = "atleta_lang";
+export const LANG_STORAGE_KEY = "atleta_lang";
 
 // ---------- Dictionaries ----------
 
@@ -522,54 +516,20 @@ const dict = {
 
 // ---------- Context ----------
 
-type Ctx = {
+export type LangCtx = {
   lang: Lang;
   setLang: (l: Lang) => void;
   toggle: () => void;
 };
 
-const LangContext = createContext<Ctx | null>(null);
-
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  // SSR-safe: always start "it", then hydrate from storage
-  const [lang, setLangState] = useState<Lang>("it");
-
-  useEffect(() => {
-    const saved = safeStorage.getItem(STORAGE_KEY);
-    if (saved === "en" || saved === "it") setLangState(saved);
-    else {
-      const nav = typeof navigator !== "undefined" ? navigator.language : "";
-      if (nav && !nav.toLowerCase().startsWith("it")) setLangState("en");
-    }
-  }, []);
-
-  useEffect(() => {
-    document.documentElement.lang = lang;
-  }, [lang]);
-
-  const setLang = useCallback((l: Lang) => {
-    setLangState(l);
-    safeStorage.setItem(STORAGE_KEY, l);
-  }, []);
-
-  const toggle = useCallback(() => {
-    setLangState((prev) => {
-      const next: Lang = prev === "it" ? "en" : "it";
-      safeStorage.setItem(STORAGE_KEY, next);
-      return next;
-    });
-  }, []);
-
-  const value = useMemo(() => ({ lang, setLang, toggle }), [lang, setLang, toggle]);
-  return <LangContext.Provider value={value}>{children}</LangContext.Provider>;
-}
+export const LangContext = createContext<LangCtx | null>(null);
 
 export function useLang(): Lang {
   const ctx = useContext(LangContext);
   return ctx?.lang ?? "it";
 }
 
-export function useLanguage(): Ctx {
+export function useLanguage(): LangCtx {
   const ctx = useContext(LangContext);
   if (!ctx) return { lang: "it", setLang: () => {}, toggle: () => {} };
   return ctx;
@@ -580,36 +540,4 @@ type DictNamespace = keyof typeof dict;
 export function useT<N extends DictNamespace>(ns: N): (typeof dict)[N]["it"] {
   const lang = useLang();
   return dict[ns][lang] as (typeof dict)[N]["it"];
-}
-
-// ---------- UI ----------
-
-export function LanguageToggle({ className = "" }: { className?: string }) {
-  const { lang, setLang } = useLanguage();
-  return (
-    <div
-      className={`inline-flex items-center gap-0.5 rounded-full border border-border bg-card p-0.5 text-[10px] font-bold uppercase tracking-widest ${className}`}
-      role="group"
-      aria-label="Language"
-    >
-      {(["it", "en"] as const).map((l) => {
-        const active = l === lang;
-        return (
-          <button
-            key={l}
-            type="button"
-            onClick={() => setLang(l)}
-            aria-pressed={active}
-            className={`rounded-full px-2.5 py-1 transition ${
-              active
-                ? "bg-accent text-accent-foreground"
-                : "text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            {l}
-          </button>
-        );
-      })}
-    </div>
-  );
 }
