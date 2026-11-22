@@ -1,7 +1,8 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { Home, Dumbbell, Activity, User, HeartPulse, Loader2 } from "lucide-react";
-import { LanguageToggle, useT } from "@/lib/i18n";
+import { LanguageToggle } from "@/components/LanguageToggle";
+import { useT } from "@/lib/i18n";
 import { useRequireAuth } from "@/lib/auth";
 
 interface AppShellProps {
