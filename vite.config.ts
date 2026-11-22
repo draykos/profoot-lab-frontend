@@ -70,7 +70,17 @@ export default defineConfig(async ({ command, mode }) => {
       }),
       // Pins the production build to Nitro's Node preset for Render (a plain Node web service).
       ...(command === "build"
-        ? [(await import("nitro/vite")).nitro({ preset: "render_com" })]
+        ? [
+            (await import("nitro/vite")).nitro({
+              preset: "render_com",
+              // Nitro's Rolldown server bundle can split the SSR entry into two chunks that
+              // import each other; the one evaluated first then calls the `__exportAll` runtime
+              // helper before the other chunk has defined it ("__exportAll is not a function" on
+              // every request). Strict execution order keeps module evaluation order intact
+              // across chunks.
+              rolldownConfig: { output: { strictExecutionOrder: true } },
+            }),
+          ]
         : []),
       viteReact(),
       VitePWA({
