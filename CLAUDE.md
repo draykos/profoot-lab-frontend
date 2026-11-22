@@ -50,7 +50,7 @@ adding entries to `minimumReleaseAgeExcludes`.
 | `/forgot-password` | `forgot-password.tsx` | Real Strapi forgot-password flow. Exports `AuthLayout`. |
 | `/reset-password` | `reset-password.tsx` | Real Strapi reset via `?code=`. |
 | `/training` | `training.tsx` | Video of today in evidence + up to 7 past/today videos, full-screen player modal. Real Strapi data (`api::video-coach`, via `GET /api/video-coach/me`). |
-| `/test` | `test.tsx` | Physical-test results + a hand-drawn SVG trend chart. Mock data. |
+| `/test` | `test.tsx` | Physical tests as a single-open accordion (first item open), one item per test type, alphabetical; types whose latest measurement is older than 14 days are hidden. Each item shows latest value + delta vs previous (colored by `direzioneMigliora`) and expands to a hand-drawn SVG trend of the last 3 months (`src/lib/test-fisici.ts`). Real data (`GET /api/test-fisico/me`). |
 | `/body` | `body.tsx` | Anatomical body map (front/back images), injury zones + history. Mock data. |
 | `/diet` | `diet.tsx` | Meal plan for today + the next 6 days (day strip, prev/next links, swipe). Plans are a repeating template week: meals filtered by weekday (`giorni`), kcal/macro totals summed from them (`src/lib/piano-alimentare.ts`). Real data (`GET /api/piano-alimentare/me`). |
 | `/matches` | `matches.tsx` | Match calendar: upcoming matches (kick-off still ahead; no stored status, past = played), first one highlighted, dates as "02 apr" (`src/lib/partite.ts`). Real data (`GET /api/calendario-partite/me`). |
